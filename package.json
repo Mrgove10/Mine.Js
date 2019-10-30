@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "babylonjs": "^4.0.3",
-    "simplex-noise": "^2.4.0",
-    "voxel": "^0.5.0"
+    "babylonjs-gui": "^4.0.3",
+    "simplex-noise": "^2.4.0"
   }
 }
