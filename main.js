@@ -107,7 +107,7 @@ var createScene = function () {
         var hit = scene.pickWithRay(ray);
 
         if (hit.pickedMesh){
-           hit.pickedMesh.scaling.y += 0.01;
+           //hit.pickedMesh.scaling.y += 0.01;
            hit.pickedMesh.material = myMaterial;
 	    }
     }
