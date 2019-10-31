@@ -36,9 +36,11 @@ var createScene = function () {
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true;
 
-    //  generateTerrain();
-    generateFlatTerrain();
+    generateTerrain();
+    //generateFlatTerrain();
     createGui();
+    setupLights();
+    var camera = setupcamera(scene);
 
     var myMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
 
@@ -47,27 +49,30 @@ var createScene = function () {
     //myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
     //myMaterial.ambientColor = new BABYLON.Color3(0.23, 0.98, 0.53);
 
-    var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial", scene);
-    bedrockMaterial.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);
-
-    var testsphere = BABYLON.MeshBuilder.CreateSphere("testsphere",{}, scene);
-    testsphere.position = new BABYLON.Vector3(2,2,2);
-    testsphere.material = bedrockMaterial;
+    var testsphere = BABYLON.MeshBuilder.CreateSphere("testsphere", {}, scene);
+    testsphere.position = new BABYLON.Vector3(2, 2, 2);
+    testsphere.material = MAT_bedrock();
 
 
-    // Add lights to the scene
-    var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 5, 0), scene);
-    light1.intensity = 0.75;
-    //var shadowGenerator = new BABYLON.ShadowG enerator(1048, light1);
-    // shadowGenerator.useBlurExponentialShadowMap = true;
+    function MAT_bedrock() {
+        var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial1", scene);
+        bedrockMaterial.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);
+        bedrockMaterial.freeze(); //for perfomance issues
+        return bedrockMaterial;
+    }
 
-    var camera = setupcamera(scene);
+    /**
+     * sets up the light
+     */
+    function setupLights() {
+        scene.clearColor = BABYLON.Color3.FromHexString("#80EBFF")
+        scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
 
-    /*var box = BABYLON.Mesh.CreateBox("box", 0.1, scene);
-    box.position.z = 10;
-    box.parent = camera;
-*/
-    //scene.debugLayer.show();
+        var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 5, 0), scene);
+        light1.intensity = 0.75;
+        //var shadowGenerator = new BABYLON.ShadowG enerator(1048, light1);
+        // shadowGenerator.useBlurExponentialShadowMap = true;
+    }
 
     /**
      * Trandforms a vectore to a mesh
@@ -105,7 +110,6 @@ var createScene = function () {
         if (hit.pickedMesh) {
             hit.pickedMesh.material = myMaterial;
         }
-        
     }
 
     /**
@@ -150,16 +154,14 @@ var createScene = function () {
      * Generates a flat plane
      */
     function generateFlatTerrain() {
-        var bedrockMaterial1 = new BABYLON.StandardMaterial("bedrockMaterial1", scene);
-        bedrockMaterial1.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);
-    
         for (let i = 0; i < 25; i++) {
             for (let j = 0; j < 25; j++) {
+                console.log("Adding cube")
                 var ir = BABYLON.MeshBuilder.CreateBox("ir", {}, scene);
                 ir.position = new BABYLON.Vector3(i, 0, j);
                 ir.receiveShadows = true;
                 ir.checkCollisions = true;
-                ir.material = bedrockMaterial1;
+                ir.material = MAT_bedrock();
             }
         }
     }
@@ -169,27 +171,29 @@ var createScene = function () {
      */
     function generateTerrain() {
 
+        var t = 0;
         var data = [];
         var simplex = new SimplexNoise();
-        for (let i = 0; i < 25; i++) {
-            data[i] = [];
-            for (let j = 0; j < 25; j++) {
-                data[i][j] = [];
-                data[i][j] = simplex.noise2D(i, j) * 10;
+        for (let x = 0; x < 25; x++) {
+            data[x] = [];
+            for (let y = 0; y < 25; y++) {
+                data[x][y] = (simplex.noise2D(x / 16, y / 16) * 0.5 + 0.5 )*10;
             }
         }
         console.log(data);
 
-        for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[i].length; j++) {
+        for (let x = 0; x < data.length; x++) {
+            for (let y = 0; y < data[x].length; y++) {
                 var ir = BABYLON.MeshBuilder.CreateBox("ir", {}, scene);
-                ir.position = new BABYLON.Vector3(i, Math.ceil(data[i][j]), j);
+                ir.position = new BABYLON.Vector3(x, Math.ceil(data[x][y]), y);
                 ir.receiveShadows = true;
                 ir.checkCollisions = true;
             }
         }
-    }
 
+
+
+    }
 
     /**
      * Set up the camera for the scene
@@ -204,7 +208,7 @@ var createScene = function () {
         camera.position = new BABYLON.Vector3(0, 5, 0);
         camera.attachControl(canvas, true);
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-        camera.applyGravity = true;
+       // camera.applyGravity = true;
         camera.checkCollisions = true;
         return camera;
     }
@@ -221,6 +225,8 @@ var createScene = function () {
             engine.exitPointerlock();
         }
     }
+
+    scene.useGuseGeometryIdsMap = true;
 
     return scene;
 };
