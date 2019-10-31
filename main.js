@@ -32,8 +32,6 @@ var canvas = document.getElementById("renderCanvas"); // Get the canvas element
 var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
 var createScene = function () {
-    engine.enterPointerlock();
-
     var scene = new BABYLON.Scene(engine);
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true;
@@ -49,10 +47,18 @@ var createScene = function () {
     //myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
     //myMaterial.ambientColor = new BABYLON.Color3(0.23, 0.98, 0.53);
 
+    var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial", scene);
+    bedrockMaterial.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);
+
+    var testsphere = BABYLON.MeshBuilder.CreateSphere("testsphere",{}, scene);
+    testsphere.position = new BABYLON.Vector3(2,2,2);
+    testsphere.material = bedrockMaterial;
+
+
     // Add lights to the scene
     var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 5, 0), scene);
     light1.intensity = 0.75;
-    //var shadowGenerator = new BABYLON.ShadowGenerator(1048, light1);
+    //var shadowGenerator = new BABYLON.ShadowG enerator(1048, light1);
     // shadowGenerator.useBlurExponentialShadowMap = true;
 
     var camera = setupcamera(scene);
@@ -144,12 +150,16 @@ var createScene = function () {
      * Generates a flat plane
      */
     function generateFlatTerrain() {
+        var bedrockMaterial1 = new BABYLON.StandardMaterial("bedrockMaterial1", scene);
+        bedrockMaterial1.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);
+    
         for (let i = 0; i < 25; i++) {
             for (let j = 0; j < 25; j++) {
                 var ir = BABYLON.MeshBuilder.CreateBox("ir", {}, scene);
                 ir.position = new BABYLON.Vector3(i, 0, j);
                 ir.receiveShadows = true;
                 ir.checkCollisions = true;
+                ir.material = bedrockMaterial1;
             }
         }
     }
