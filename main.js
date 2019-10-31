@@ -53,9 +53,6 @@ var createScene = function () {
     testsphere.position = new BABYLON.Vector3(2, 2, 2);
     testsphere.material = MAT_bedrock();
 
-    var perf = new BABYLON.PerformanceMonitor(10);
-    console.log(perf.averageFPS);
-
 
     function MAT_bedrock() {
         var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial1", scene);
@@ -193,9 +190,6 @@ var createScene = function () {
                 ir.checkCollisions = true;
             }
         }
-
-
-
     }
 
     /**
