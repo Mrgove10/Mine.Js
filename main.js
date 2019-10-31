@@ -63,12 +63,20 @@ var createScene = function () {
 */
     //scene.debugLayer.show();
 
+    /**
+     * Trandforms a vectore to a mesh
+     * @param {*} vector 
+     * @param {*} mesh 
+     */
     function vecToLocal(vector, mesh) {
         var m = mesh.getWorldMatrix();
         var v = BABYLON.Vector3.TransformCoordinates(vector, m);
         return v;
     }
 
+    /**
+     * Cats a ray from the camera
+     */
     function castRay() {
         var origin = camera.position;
 
@@ -78,10 +86,11 @@ var createScene = function () {
         var direction = forward.subtract(origin);
         direction = BABYLON.Vector3.Normalize(direction);
 
-        var length = 100;
+        var length = 6;
 
         var ray = new BABYLON.Ray(origin, direction, length);
 
+        //for debugging
         //	let rayHelper = new BABYLON.RayHelper(ray);		
         //	rayHelper.show(scene);		
 
@@ -90,8 +99,12 @@ var createScene = function () {
         if (hit.pickedMesh) {
             hit.pickedMesh.material = myMaterial;
         }
+        
     }
 
+    /**
+     * Created all the UI elements
+     */
     function createGui() {
         // GUI
         var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
@@ -109,6 +122,7 @@ var createScene = function () {
         }
         createRectangle().verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
 
+        //Cen,ter cross of the screen
         var cross = new BABYLON.GUI.Rectangle();
         cross.width = "20px";
         cross.height = "2px";
@@ -126,6 +140,9 @@ var createScene = function () {
         advancedTexture.addControl(cross1);
     }
 
+    /**
+     * Generates a flat plane
+     */
     function generateFlatTerrain() {
         for (let i = 0; i < 25; i++) {
             for (let j = 0; j < 25; j++) {
@@ -137,7 +154,9 @@ var createScene = function () {
         }
     }
 
-
+    /**
+     * Generates random terain
+     */
     function generateTerrain() {
 
         var data = [];
@@ -162,6 +181,10 @@ var createScene = function () {
     }
 
 
+    /**
+     * Set up the camera for the scene
+     * @param {Scene} scene 
+     */
     function setupcamera(scene) {
         var camera = new BABYLON.UniversalCamera("mainCamera", new BABYLON.Vector3(0, 0, 0), scene);
         camera.fov = 45;
@@ -169,7 +192,6 @@ var createScene = function () {
         camera.maxZ = 1000;
         camera.speed = 0.5;
         camera.position = new BABYLON.Vector3(0, 5, 0);
-        // camera.rotation = new BABYLON.Vector3(Math.PI / 4, Math.PI, 0); //https://doc.babylonjs.com/resources/rotation_conventions
         camera.attachControl(canvas, true);
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
         camera.applyGravity = true;
@@ -177,11 +199,9 @@ var createScene = function () {
         return camera;
     }
 
-
     scene.registerBeforeRender(function () {
         castRay();
     });
-
 
     scene.onPointerUp = function () {
         if (!document.pointerLockElement) {
@@ -206,14 +226,3 @@ engine.runRenderLoop(function () {
 window.addEventListener("resize", function () {
     engine.resize();
 });
-
-/*
-window.addEventListener("click", function () {
-    // We try to pick an object
-    var myMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
-    myMaterial.diffuseColor = new BABYLON.Color3(1, 0, 1);
-    var pickResult = scene.pick(scene.pointerX, scene.pointerY);
-    console.log(pickResult);
-    pickResult.originMesh.material = myMaterial;
-
- });*/
