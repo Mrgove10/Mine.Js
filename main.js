@@ -53,6 +53,9 @@ var createScene = function () {
     testsphere.position = new BABYLON.Vector3(2, 2, 2);
     testsphere.material = MAT_bedrock();
 
+    var perf = new BABYLON.PerformanceMonitor(10);
+    console.log(perf.averageFPS);
+
 
     function MAT_bedrock() {
         var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial1", scene);
@@ -177,7 +180,7 @@ var createScene = function () {
         for (let x = 0; x < 25; x++) {
             data[x] = [];
             for (let y = 0; y < 25; y++) {
-                data[x][y] = (simplex.noise2D(x / 16, y / 16) * 0.5 + 0.5 )*10;
+                data[x][y] = (simplex.noise2D(x / 16, y / 16) * 0.5 + 0.5) * 10;
             }
         }
         console.log(data);
@@ -208,7 +211,7 @@ var createScene = function () {
         camera.position = new BABYLON.Vector3(0, 5, 0);
         camera.attachControl(canvas, true);
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-       // camera.applyGravity = true;
+        // camera.applyGravity = true;
         camera.checkCollisions = true;
         return camera;
     }
