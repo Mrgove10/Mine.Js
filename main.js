@@ -3,6 +3,7 @@ import { MAT_dirt } from './js/materials/dirt.js';
 import { MAT_grass } from './js/materials/grass.js';
 import { MAT_bedrock } from './js/materials/bedrock.js';
 import { centerCross } from './js/UI/centerCross.js';
+import { setupLights } from './js/scene/lights.js';
 
 var mapsize = 25;
 var allBlocks = [];
@@ -44,12 +45,11 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine);
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true;
-
+    var camera = setupcamera(scene);
     generateTerrain();
     //generateFlatTerrain();
     createGui();
-    setupLights();
-    var camera = setupcamera(scene);
+    setupLights(scene);
 
     //  var testsphere = BABYLON.MeshBuilder.CreateSphere("testsphere", {}, scene);
     // testsphere.position = new BABYLON.Vector3(2, 2, 2);
@@ -61,19 +61,8 @@ var createScene = function () {
     //myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
     //myMaterial.ambientColor = new BABYLON.Color3(0.23, 0.98, 0.53);
 
-    /**
-     * sets up the light
-     */
-    function setupLights() {
-        scene.clearColor = BABYLON.Color3.FromHexString("#80EBFF")
-        //    scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
-
-        var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 5, 0), scene);
-        light1.intensity = 0.75;
-        //var shadowGenerator = new BABYLON.ShadowG enerator(1048, light1);
-        // shadowGenerator.useBlurExponentialShadowMap = true;
-    }
-
+ 
+ 
     /**
      * Trandforms a vectore to a mesh
      * @param {*} vector 
