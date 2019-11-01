@@ -1,3 +1,6 @@
+'use strict';
+var mapsize = 50;
+var allBlocks = [];
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
@@ -42,23 +45,28 @@ var createScene = function () {
     setupLights();
     var camera = setupcamera(scene);
 
-    var myMaterial = new BABYLON.StandardMaterial("myMaterial", scene);
+    //  var testsphere = BABYLON.MeshBuilder.CreateSphere("testsphere", {}, scene);
+    // testsphere.position = new BABYLON.Vector3(2, 2, 2);
+    //  testsphere.material = MAT_bedrock();
 
+    var myMaterial = new BABYLON.Material("myMaterial", scene);
     myMaterial.diffuseColor = new BABYLON.Color3(1, 0, 1);
     //myMaterial.specularColor = new BABYLON.Color3(0.5, 0.6, 0.87);
     //myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
     //myMaterial.ambientColor = new BABYLON.Color3(0.23, 0.98, 0.53);
 
-    var testsphere = BABYLON.MeshBuilder.CreateSphere("testsphere", {}, scene);
-    testsphere.position = new BABYLON.Vector3(2, 2, 2);
-    testsphere.material = MAT_bedrock();
-
-
     function MAT_bedrock() {
-        var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial1", scene);
+        var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial", scene);
         bedrockMaterial.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);
-        bedrockMaterial.freeze(); //for perfomance issues
+        bedrockMaterial.freeze(); //for performance issues
         return bedrockMaterial;
+    }
+
+    function MAT_dirt() {
+        var dirtMaterial = new BABYLON.StandardMaterial("dirtMaterial", scene);
+        dirtMaterial.diffuseTexture = new BABYLON.Texture("images/dirt.png", scene);
+        dirtMaterial.freeze(); //for performance issues
+        return dirtMaterial;
     }
 
     /**
@@ -66,7 +74,7 @@ var createScene = function () {
      */
     function setupLights() {
         scene.clearColor = BABYLON.Color3.FromHexString("#80EBFF")
-        scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
+        //    scene.fogMode = BABYLON.Scene.FOGMODE_EXP;
 
         var light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 5, 0), scene);
         light1.intensity = 0.75;
@@ -154,8 +162,8 @@ var createScene = function () {
      * Generates a flat plane
      */
     function generateFlatTerrain() {
-        for (let i = 0; i < 25; i++) {
-            for (let j = 0; j < 25; j++) {
+        for (let i = 0; i < mapsize; i++) {
+            for (let j = 0; j < mapsize; j++) {
                 console.log("Adding cube")
                 var ir = BABYLON.MeshBuilder.CreateBox("ir", {}, scene);
                 ir.position = new BABYLON.Vector3(i, 0, j);
@@ -164,23 +172,23 @@ var createScene = function () {
                 ir.material = MAT_bedrock();
             }
         }
+        scene.createOrUpdateSelectionOctree();
     }
 
     /**
-     * Generates random terain
+     * Generates random terain whit smplex noise
      */
     function generateTerrain() {
 
         var t = 0;
         var data = [];
         var simplex = new SimplexNoise();
-        for (let x = 0; x < 25; x++) {
+        for (let x = 0; x < mapsize; x++) {
             data[x] = [];
-            for (let y = 0; y < 25; y++) {
+            for (let y = 0; y < mapsize; y++) {
                 data[x][y] = (simplex.noise2D(x / 16, y / 16) * 0.5 + 0.5) * 10;
             }
         }
-        console.log(data);
 
         for (let x = 0; x < data.length; x++) {
             for (let y = 0; y < data[x].length; y++) {
@@ -188,8 +196,20 @@ var createScene = function () {
                 ir.position = new BABYLON.Vector3(x, Math.ceil(data[x][y]), y);
                 ir.receiveShadows = true;
                 ir.checkCollisions = true;
+                ir.material = MAT_dirt();
+                allBlocks.push({
+                    x: x,
+                    y: y,
+                    block: ir
+                })
             }
         }
+        scene.createOrUpdateSelectionOctree();
+        console.log(allBlocks);
+    }
+
+    function currentPlayerPos() {
+        console.log(camera.position.x + " " + camera.position.y)
     }
 
     /**
@@ -212,6 +232,7 @@ var createScene = function () {
 
     scene.registerBeforeRender(function () {
         castRay();
+        currentPlayerPos();
     });
 
     scene.onPointerUp = function () {
