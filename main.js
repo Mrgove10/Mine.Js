@@ -2,6 +2,7 @@
 import { MAT_dirt } from './js/materials/dirt.js';
 import { MAT_grass } from './js/materials/grass.js';
 import { MAT_bedrock } from './js/materials/bedrock.js';
+import { centerCross } from './js/UI/centerCross.js';
 
 var mapsize = 25;
 var allBlocks = [];
@@ -107,7 +108,7 @@ var createScene = function () {
         var hit = scene.pickWithRay(ray);
 
         if (hit.pickedMesh) {
-         //   hit.pickedMesh.material += myMaterial;
+            //   hit.pickedMesh.material += myMaterial;
         }
     }
 
@@ -117,36 +118,8 @@ var createScene = function () {
     function createGui() {
         // GUI
         var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+        centerCross(advancedTexture)
 
-        /*var createRectangle = function () {
-            var rect1 = new BABYLON.GUI.Rectangle();
-            rect1.width = 0.2;
-            rect1.height = "40px";
-            rect1.cornerRadius = 5;
-            rect1.color = "Orange";
-            rect1.thickness = 4;
-            rect1.background = "green";
-            advancedTexture.addControl(rect1);
-            return rect1;
-        }
-        createRectangle().verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;*/
-
-        //Cen,ter cross of the screen
-        var cross = new BABYLON.GUI.Rectangle();
-        cross.width = "20px";
-        cross.height = "2px";
-        cross.color = "black";
-        cross.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-        cross.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-        advancedTexture.addControl(cross);
-
-        var cross1 = new BABYLON.GUI.Rectangle();
-        cross1.width = "2px";
-        cross1.height = "20px";
-        cross1.color = "black";
-        cross1.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-        cross1.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-        advancedTexture.addControl(cross1);
     }
 
     /**
@@ -199,14 +172,14 @@ var createScene = function () {
                 //te cubes underneath
                 for (let h = 0; h < height; h++) {
                     var cubeInstanceBot = cubeDirt.createInstance();
-                    cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);                    
+                    cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
                 }
-              /*
-                allBlocks.push({
-                    x: x,
-                    y: y,
-                    block: cubeinstance
-                });*/
+                /*
+                  allBlocks.push({
+                      x: x,
+                      y: y,
+                      block: cubeinstance
+                  });*/
             }
         }
         scene.createOrUpdateSelectionOctree();
@@ -214,18 +187,18 @@ var createScene = function () {
     }
 
     function currentPlayerPos() {
-         allBlocks.forEach(block => {
-             var a = camera.position.x - block.x;
-             var b = camera.position.y - block.y;
-             var dist = Math.sqrt(a * a + b * b);
+        allBlocks.forEach(block => {
+            var a = camera.position.x - block.x;
+            var b = camera.position.y - block.y;
+            var dist = Math.sqrt(a * a + b * b);
             // console.log(dist);
-             if (dist <= renderDistance) {
-                 block.isVisible = true;
-             }
-             else {
-                 block.isVisible = false;
-             }
-         });
+            if (dist <= renderDistance) {
+                block.isVisible = true;
+            }
+            else {
+                block.isVisible = false;
+            }
+        });
     }
 
     /**
