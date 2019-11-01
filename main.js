@@ -1,6 +1,7 @@
 'use strict';
-var mapsize = 50;
+var mapsize = 20;
 var allBlocks = [];
+var renderDistance = 10;
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
@@ -62,6 +63,13 @@ var createScene = function () {
         return bedrockMaterial;
     }
 
+    function MAT_grass() {
+        var grassMaterial = new BABYLON.StandardMaterial("grassMaterial", scene);
+        grassMaterial.diffuseTexture = new BABYLON.Texture("images/grass.png", scene);
+        grassMaterial.freeze(); //for performance issues
+        return grassMaterial;
+    }
+
     function MAT_dirt() {
         var dirtMaterial = new BABYLON.StandardMaterial("dirtMaterial", scene);
         dirtMaterial.diffuseTexture = new BABYLON.Texture("images/dirt.png", scene);
@@ -116,7 +124,7 @@ var createScene = function () {
         var hit = scene.pickWithRay(ray);
 
         if (hit.pickedMesh) {
-            hit.pickedMesh.material = myMaterial;
+         //   hit.pickedMesh.material += myMaterial;
         }
     }
 
@@ -179,6 +187,15 @@ var createScene = function () {
      * Generates random terain whit smplex noise
      */
     function generateTerrain() {
+        var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
+        cubeGrass.receiveShadows = true;
+        cubeGrass.checkCollisions = true;
+        cubeGrass.material = MAT_grass();
+
+        var cubeDirt = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
+        cubeDirt.receiveShadows = true;
+        cubeDirt.checkCollisions = true;
+        cubeDirt.material = MAT_dirt();
 
         var t = 0;
         var data = [];
@@ -192,16 +209,21 @@ var createScene = function () {
 
         for (let x = 0; x < data.length; x++) {
             for (let y = 0; y < data[x].length; y++) {
-                var ir = BABYLON.MeshBuilder.CreateBox("ir", {}, scene);
-                ir.position = new BABYLON.Vector3(x, Math.ceil(data[x][y]), y);
-                ir.receiveShadows = true;
-                ir.checkCollisions = true;
-                ir.material = MAT_dirt();
+                var height = Math.ceil(data[x][y]);
+                //top cube
+                var cubeInstanceTop = cubeGrass.createInstance();
+                cubeInstanceTop.position = new BABYLON.Vector3(x, height, y);
+                //te cubes underneath
+                for (let h = 0; h < height; h++) {
+                    var cubeInstanceBot = cubeDirt.createInstance();
+                    cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);                    
+                }
+              /*
                 allBlocks.push({
                     x: x,
                     y: y,
-                    block: ir
-                })
+                    block: cubeinstance
+                });*/
             }
         }
         scene.createOrUpdateSelectionOctree();
@@ -209,7 +231,20 @@ var createScene = function () {
     }
 
     function currentPlayerPos() {
-        console.log(camera.position.x + " " + camera.position.y)
+
+         allBlocks.forEach(block => {
+             var a = camera.position.x - block.x;
+             var b = camera.position.y - block.y;
+             var dist = Math.sqrt(a * a + b * b);
+            // console.log(dist);
+             if (dist <= renderDistance) {
+                 block.isVisible = true;
+             }
+             else {
+                 block.isVisible = false;
+             }
+ 
+         });
     }
 
     /**
