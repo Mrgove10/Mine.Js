@@ -1,5 +1,9 @@
 'use strict';
-var mapsize = 20;
+import { MAT_dirt } from './js/materials/dirt.js';
+import { MAT_grass } from './js/materials/grass.js';
+import { MAT_bedrock } from './js/materials/bedrock.js';
+
+var mapsize = 25;
 var allBlocks = [];
 var renderDistance = 10;
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
@@ -55,27 +59,6 @@ var createScene = function () {
     //myMaterial.specularColor = new BABYLON.Color3(0.5, 0.6, 0.87);
     //myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
     //myMaterial.ambientColor = new BABYLON.Color3(0.23, 0.98, 0.53);
-
-    function MAT_bedrock() {
-        var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial", scene);
-        bedrockMaterial.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);
-        bedrockMaterial.freeze(); //for performance issues
-        return bedrockMaterial;
-    }
-
-    function MAT_grass() {
-        var grassMaterial = new BABYLON.StandardMaterial("grassMaterial", scene);
-        grassMaterial.diffuseTexture = new BABYLON.Texture("images/grass.png", scene);
-        grassMaterial.freeze(); //for performance issues
-        return grassMaterial;
-    }
-
-    function MAT_dirt() {
-        var dirtMaterial = new BABYLON.StandardMaterial("dirtMaterial", scene);
-        dirtMaterial.diffuseTexture = new BABYLON.Texture("images/dirt.png", scene);
-        dirtMaterial.freeze(); //for performance issues
-        return dirtMaterial;
-    }
 
     /**
      * sets up the light
@@ -135,7 +118,7 @@ var createScene = function () {
         // GUI
         var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-        var createRectangle = function () {
+        /*var createRectangle = function () {
             var rect1 = new BABYLON.GUI.Rectangle();
             rect1.width = 0.2;
             rect1.height = "40px";
@@ -146,7 +129,7 @@ var createScene = function () {
             advancedTexture.addControl(rect1);
             return rect1;
         }
-        createRectangle().verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+        createRectangle().verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;*/
 
         //Cen,ter cross of the screen
         var cross = new BABYLON.GUI.Rectangle();
@@ -177,7 +160,7 @@ var createScene = function () {
                 ir.position = new BABYLON.Vector3(i, 0, j);
                 ir.receiveShadows = true;
                 ir.checkCollisions = true;
-                ir.material = MAT_bedrock();
+                ir.material = MAT_bedrock(scene);
             }
         }
         scene.createOrUpdateSelectionOctree();
@@ -190,12 +173,12 @@ var createScene = function () {
         var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
         cubeGrass.receiveShadows = true;
         cubeGrass.checkCollisions = true;
-        cubeGrass.material = MAT_grass();
+        cubeGrass.material = MAT_grass(scene);
 
         var cubeDirt = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
         cubeDirt.receiveShadows = true;
         cubeDirt.checkCollisions = true;
-        cubeDirt.material = MAT_dirt();
+        cubeDirt.material = MAT_dirt(scene);
 
         var t = 0;
         var data = [];
@@ -231,7 +214,6 @@ var createScene = function () {
     }
 
     function currentPlayerPos() {
-
          allBlocks.forEach(block => {
              var a = camera.position.x - block.x;
              var b = camera.position.y - block.y;
@@ -243,7 +225,6 @@ var createScene = function () {
              else {
                  block.isVisible = false;
              }
- 
          });
     }
 
