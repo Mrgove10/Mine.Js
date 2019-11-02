@@ -4,10 +4,11 @@ import { MAT_grass } from './js/materials/grass.js';
 import { MAT_bedrock } from './js/materials/bedrock.js';
 import { centerCross } from './js/UI/centerCross.js';
 import { setupLights } from './js/scene/lights.js';
+import { createTree } from './js/generation/tree.js';
+import { castRay } from './js/interactions/raycasting.js';
 
-var mapsize = 25;
+var mapsize = 20;
 var allBlocks = [];
-var renderDistance = 10;
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
@@ -45,61 +46,34 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine);
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true;
+    scene.actionManager = new BABYLON.ActionManager(scene);
+
+
+   // scene.debugLayer.show();
+    scene.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            {
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 'r'
+            },
+            function () {
+                var picked = scene.pickWithRay(castRay(scene,camera));
+                console.log(picked.pickedMesh);
+
+                //picked = null;
+                picked.pickedMesh.dispose();
+                picked.pickedMesh.material.dispose();
+            //    picked.dispose();
+            }
+        )
+    );
+
     var camera = setupcamera(scene);
     generateTerrain();
     //generateFlatTerrain();
     createGui();
     setupLights(scene);
-
-    //  var testsphere = BABYLON.MeshBuilder.CreateSphere("testsphere", {}, scene);
-    // testsphere.position = new BABYLON.Vector3(2, 2, 2);
-    //  testsphere.material = MAT_bedrock();
-
-    var myMaterial = new BABYLON.Material("myMaterial", scene);
-    myMaterial.diffuseColor = new BABYLON.Color3(1, 0, 1);
-    //myMaterial.specularColor = new BABYLON.Color3(0.5, 0.6, 0.87);
-    //myMaterial.emissiveColor = new BABYLON.Color3(1, 1, 1);
-    //myMaterial.ambientColor = new BABYLON.Color3(0.23, 0.98, 0.53);
-
- 
- 
-    /**
-     * Trandforms a vectore to a mesh
-     * @param {*} vector 
-     * @param {*} mesh 
-     */
-    function vecToLocal(vector, mesh) {
-        var m = mesh.getWorldMatrix();
-        var v = BABYLON.Vector3.TransformCoordinates(vector, m);
-        return v;
-    }
-
-    /**
-     * Cats a ray from the camera
-     */
-    function castRay() {
-        var origin = camera.position;
-
-        var forward = new BABYLON.Vector3(0, 0, 1);
-        forward = vecToLocal(forward, camera);
-
-        var direction = forward.subtract(origin);
-        direction = BABYLON.Vector3.Normalize(direction);
-
-        var length = 6;
-
-        var ray = new BABYLON.Ray(origin, direction, length);
-
-        //for debugging
-        //	let rayHelper = new BABYLON.RayHelper(ray);		
-        //	rayHelper.show(scene);		
-
-        var hit = scene.pickWithRay(ray);
-
-        if (hit.pickedMesh) {
-            //   hit.pickedMesh.material += myMaterial;
-        }
-    }
+    createTree(scene, -10, 0, -10);
 
     /**
      * Created all the UI elements
@@ -108,7 +82,6 @@ var createScene = function () {
         // GUI
         var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
         centerCross(advancedTexture)
-
     }
 
     /**
@@ -120,7 +93,7 @@ var createScene = function () {
                 console.log("Adding cube")
                 var ir = BABYLON.MeshBuilder.CreateBox("ir", {}, scene);
                 ir.position = new BABYLON.Vector3(i, 0, j);
-                ir.receiveShadows = true;
+                //ir.receiveShadows = true;
                 ir.checkCollisions = true;
                 ir.material = MAT_bedrock(scene);
             }
@@ -133,12 +106,12 @@ var createScene = function () {
      */
     function generateTerrain() {
         var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
-        cubeGrass.receiveShadows = true;
+      //  cubeGrass.receiveShadows = true;
         cubeGrass.checkCollisions = true;
         cubeGrass.material = MAT_grass(scene);
 
         var cubeDirt = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
-        cubeDirt.receiveShadows = true;
+        //cubeDirt.receiveShadows = true;
         cubeDirt.checkCollisions = true;
         cubeDirt.material = MAT_dirt(scene);
 
@@ -154,14 +127,26 @@ var createScene = function () {
 
         for (let x = 0; x < data.length; x++) {
             for (let y = 0; y < data[x].length; y++) {
+               
                 var height = Math.ceil(data[x][y]);
+                var name = "cube#"+x+y+height;
                 //top cube
-                var cubeInstanceTop = cubeGrass.createInstance();
-                cubeInstanceTop.position = new BABYLON.Vector3(x, height, y);
+               // var cubeInstanceTop = cubeGrass.createInstance(name);
+               var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
+             //  cubeGrass.receiveShadows = true;
+               cubeGrass.checkCollisions = true;
+               cubeGrass.material = MAT_grass(scene);
+       
+               cubeGrass.position = new BABYLON.Vector3(x, height, y);
                 //te cubes underneath
                 for (let h = 0; h < height; h++) {
-                    var cubeInstanceBot = cubeDirt.createInstance();
-                    cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
+                    name = "cube#"+x+y+h;
+                    //var cubeInstanceBot = cubeDirt.createInstance(name);
+                    var cubeDirt = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
+                  //  cubeDirt.receiveShadows = true;
+                    cubeDirt.checkCollisions = true;
+                    cubeDirt.material = MAT_dirt(scene);
+                    cubeDirt.position = new BABYLON.Vector3(x, h, y);
                 }
                 /*
                   allBlocks.push({
@@ -176,18 +161,18 @@ var createScene = function () {
     }
 
     function currentPlayerPos() {
-        allBlocks.forEach(block => {
-            var a = camera.position.x - block.x;
-            var b = camera.position.y - block.y;
+        var renderDistance = 15;
+    /*    scene.meshes.forEach(block => {
+            var a = camera.position.x - block._absolutePosition.x;
+            var b = camera.position.y - block._absolutePosition.y;
             var dist = Math.sqrt(a * a + b * b);
-            // console.log(dist);
             if (dist <= renderDistance) {
                 block.isVisible = true;
             }
             else {
                 block.isVisible = false;
             }
-        });
+        });*/
     }
 
     /**
@@ -200,7 +185,7 @@ var createScene = function () {
         camera.minZ = 0.01;
         camera.maxZ = 1000;
         camera.speed = 0.5;
-        camera.position = new BABYLON.Vector3(0, 5, 0);
+        camera.position = new BABYLON.Vector3(0, 15, 0);
         camera.attachControl(canvas, true);
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
         // camera.applyGravity = true;
@@ -209,7 +194,7 @@ var createScene = function () {
     }
 
     scene.registerBeforeRender(function () {
-        castRay();
+        castRay(scene,camera);
         currentPlayerPos();
     });
 
