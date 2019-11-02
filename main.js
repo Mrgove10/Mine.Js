@@ -1,19 +1,14 @@
-'use strict';
-import { MAT_dirt } from './js/materials/dirt.js';
-import { MAT_grass } from './js/materials/grass.js';
 import { MAT_wood } from './js/materials/wood.js';
 import { MAT_leaf } from './js/materials/leaf.js';
 import { centerCross } from './js/UI/centerCross.js';
 import { setupLights } from './js/scene/lights.js';
-//import { createTree } from './js/generation/tree.js';
 import { castRay } from './js/interactions/raycasting.js';
 import { setupcamera } from './js/scene/camera.js';
 import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
-
+import { createTree } from './js/generation/tree.js';
 
 var mapsize = 10;
-var allBlocks = [];
 var renderDistance = 20;
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
@@ -54,7 +49,7 @@ var createScene = function () {
     scene.collisionsEnabled = true;
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.useGeometryIdsMap = true;
-    // scene.debugLayer.show();
+    scene.debugLayer.show();
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
@@ -74,38 +69,14 @@ var createScene = function () {
     );
 
     var camera = setupcamera(scene, canvas);
-    generateTerrain(scene, renderDistance, mapsize);
     createGui();
     setupLights(scene);
-    generateFlatTerrain(scene, renderDistance, mapsize);
+    //generateFlatTerrain(scene, renderDistance, mapsize);
+    //generateTerrain(scene, renderDistance, mapsize);
 
+   createTree(scene, -7, 0, -7);
 
-    var cubeWood = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
-    cubeWood.checkCollisions = true;
-    cubeWood.material = MAT_wood(scene);
-    cubeWood.freezeWorldMatrix();
-
-    var cubeLeaf = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
-    cubeLeaf.checkCollisions = true;
-    cubeLeaf.material = MAT_leaf(scene);
-    cubeLeaf.freezeWorldMatrix();
-
-    var barkHeigh = 6;
-    //lv1  = 5x5
-    //lv2 = 5x5
-    //lv3 = 3x3
-    //lv 4 = cross
-
-
-    for (let i = 0; i < barkHeigh; i++) {
-        var bb = cubeLeaf.createInstance("i");
-        bb.position = new BABYLON.Vector3(-5, i, -5);
-    }
-
-    for (let i = 0; i < barkHeigh; i++) {
-        var bb = cubeWood.createInstance("i");
-        bb.position = new BABYLON.Vector3(-4, i, -4);
-    }
+   
 
     /**
      * Created all the UI elements
