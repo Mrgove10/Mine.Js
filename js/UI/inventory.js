@@ -1,17 +1,38 @@
-export function showInventoryUI(){
-    var cross = new BABYLON.GUI.Rectangle();
-    cross.width = "20px";
-    cross.height = "2px";
-    cross.color = "black";
-    cross.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-    cross.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-    advancedTexture.addControl(cross);
+var active = false;
+export function toggleInventoryUI(advancedTexture) {
+    //https://doc.babylonjs.com/how_to/gui
+    var grid = new BABYLON.GUI.Grid();
+    grid.width = "350px";
+    grid.height = "200px";
+    grid.addColumnDefinition(0.5, true);
+    grid.addRowDefinition(0.5);
+    grid.addRowDefinition(0.5);
+    grid.addRowDefinition(0.5);
+    grid.addRowDefinition(0.5);
+    grid.addRowDefinition(0.5);
+    grid.addRowDefinition(0.5);
 
-    var cross1 = new BABYLON.GUI.Rectangle();
-    cross1.width = "2px";
-    cross1.height = "20px";
-    cross1.color = "black";
-    cross1.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-    cross1.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-    advancedTexture.addControl(cross1);
+    //  grid.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+    // grid.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    grid.background = "black";
+   
+ /*   active = !active;
+    if (active == true) {
+        grid.ena .addControl(grid);
+
+    else if(active == false){
+        advancedTexture.addControl(grid);
+
+    }*/
+    var image = new BABYLON.GUI.Image("dirt", "images/dirt.png");
+    //   image.width = 0.2;
+    //  image.height = "50px";
+    grid.addControl(image, 0, 0);
+
+    var rect = new BABYLON.GUI.Rectangle();
+    rect.background = "green";
+    rect.thickness = 0;
+    grid.addControl(rect, 0, 1);
+
+
 }

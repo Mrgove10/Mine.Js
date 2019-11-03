@@ -30,6 +30,6 @@ export function addToInventory(blockString) {
     // console.log(inventory);
 }
 
-export function showInventory() {
+export function showInventoryConsole() {
     console.log(inventory);
 }

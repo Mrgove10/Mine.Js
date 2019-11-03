@@ -6,7 +6,7 @@ import { createTree } from "./tree.js";
 /**
  * Generates random terain whit smplex noise
  */
-export function generateTerrain(scene, renderDistance, mapsize, maxheight, numberOfTrees) {
+export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
     var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeGrass.checkCollisions = true;
     cubeGrass.material = MAT_grass(scene);

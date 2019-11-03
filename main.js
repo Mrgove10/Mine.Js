@@ -6,12 +6,13 @@ import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
 import { hotbar } from './js/UI/hotbar.js';
 import { removeBlock } from './js/interactions/removeBlock.js';
-import { showInventory } from './js/player/inventory.js';
+import { showInventoryConsole } from './js/player/inventory.js';
+import { toggleInventoryUI } from './js/UI/inventory.js';
+import { addBlock } from './js/interactions/addBlock.js';
 
-var mapsize = 27;
+var mapsize = 23;
 var maxheight = 17;
 var renderDistance = 35;
-var numberOfTrees = 3;
 
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
@@ -54,11 +55,15 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine, true, {
         stencil: true
     });
+    var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    var camera = setupcamera(scene, canvas, 9, 25, 9);
+
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true;
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.useGeometryIdsMap = true;
     //   scene.debugLayer.show(); //debug
+    // Remove block key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
@@ -73,6 +78,7 @@ var createScene = function () {
             }
         )
     );
+    // Inventory key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
@@ -80,22 +86,35 @@ var createScene = function () {
                 parameter: 'i'
             },
             function () {
-                showInventory();
+                showInventoryConsole();
+                toggleInventoryUI(advancedTexture);
             }
         )
     );
-    var camera = setupcamera(scene, canvas, 9, 25, 9);
+    //Add block key
+    scene.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            {
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 'a'
+            },
+            function () {
+                addBlock(castRay(scene, camera));
+            }
+        )
+    );
+
+
+
     createGui();
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize);
-    generateTerrain(scene, renderDistance, mapsize, maxheight, numberOfTrees);
-
+    generateTerrain(scene, renderDistance, mapsize, maxheight);
     /**
      * Created all the UI elements
      */
     function createGui() {
         // GUI
-        var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
         centerCross(advancedTexture);
         hotbar(advancedTexture);
     }
