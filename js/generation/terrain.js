@@ -1,11 +1,12 @@
 import { MAT_grass } from "../materials/grass.js";
 import { MAT_dirt } from "../materials/dirt.js";
 import { MAT_stone } from "../materials/stone.js";
+import { createTree } from "./tree.js";
 
 /**
  * Generates random terain whit smplex noise
  */
-export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
+export function generateTerrain(scene, renderDistance, mapsize, maxheight, numberOfTrees) {
     var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeGrass.checkCollisions = true;
     cubeGrass.material = MAT_grass(scene);
@@ -35,6 +36,7 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
 
     for (let x = 0; x < data.length; x++) {
         for (let y = 0; y < data[x].length; y++) {
+
             //top cubes
             var height = Math.ceil(data[x][y]);
             var heightGrass = height - 5;
@@ -43,6 +45,10 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
             cubeInstanceTop.position = new BABYLON.Vector3(x, height, y);
             cubeInstanceTop.backFaceCulling = true;
 
+            var tree = Math.random()
+            if (tree > 0.985) {
+                createTree(scene, renderDistance, x, height + 1, y)
+            }
             //the cubes underneath
             //stone
             for (let h = 1; h < heightGrass; h++) {

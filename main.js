@@ -4,48 +4,55 @@ import { castRay } from './js/interactions/raycasting.js';
 import { setupcamera } from './js/scene/camera.js';
 import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
-import { createTree } from './js/generation/tree.js';
 import { hotbar } from './js/UI/hotbar.js';
 import { removeBlock } from './js/interactions/removeBlock.js';
 
 var mapsize = 25;
 var maxheight = 17;
-var renderDistance = 40;
+var renderDistance = 35;
+var numberOfTrees = 3;
+
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
-BABYLON.Engine.prototype.enterPointerlock = function () {
-    if (this._rendering) {
-        BABYLON.Tools.RequestPointerlock(this._rendering);
-    }
-}
+function initPointerLock(canvas, camera) {
+    // On click event, request pointer lock
+    canvas.addEventListener("click", function (evt) {
+        canvas.requestPointerLock = canvas.requestPointerLock || canvas.msRequestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
+        if (canvas.requestPointerLock) {
+            canvas.requestPointerLock();
+        }
+    }, false);
 
-BABYLON.Engine.prototype.exitPointerlock = function () {
-    BABYLON.Tools.ExitPointerlock();
-}
+    // Event listener when the pointerlock is updated (or removed by pressing ESC for example).
+    var pointerlockchange = function (event) {
+        var controlEnabled = (
+            document.mozPointerLockElement === canvas
+            || document.webkitPointerLockElement === canvas
+            || document.msPointerLockElement === canvas
+            || document.pointerLockElement === canvas);
+        // If the user is already locked
+        if (!controlEnabled) {
+            camera.detachControl(canvas);
+        } else {
+            camera.attachControl(canvas);
+        }
+    };
 
-
-BABYLON.Tools.RequestPointerlock = function (element) {
-    element.requestPointerLock = element.requestPointerLock || (element).msRequestPointerLock || (element).mozRequestPointerLock || (element).webkitRequestPointerLock;
-    if (element.requestPointerLock) {
-        element.requestPointerLock();
-    }
-}
-
-BABYLON.Tools.ExitPointerlock = function (element) {
-    let anyDoc = document; // as any;
-    document.exitPointerLock = document.exitPointerLock || anyDoc.msExitPointerLock || anyDoc.mozExitPointerLock || anyDoc.webkitExitPointerLock;
-
-    if (document.exitPointerLock) {
-        document.exitPointerLock();
-    }
+    // Attach events to the document
+    document.addEventListener("pointerlockchange", pointerlockchange, false);
+    document.addEventListener("mspointerlockchange", pointerlockchange, false);
+    document.addEventListener("mozpointerlockchange", pointerlockchange, false);
+    document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
 }
 
 var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
 var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
 var createScene = function () {
-    var scene = new BABYLON.Scene(engine);
+    var scene = new BABYLON.Scene(engine, true, {
+        stencil: true
+    });
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true;
     scene.actionManager = new BABYLON.ActionManager(scene);
@@ -66,12 +73,11 @@ var createScene = function () {
         )
     );
 
-    var camera = setupcamera(scene, canvas);
+    var camera = setupcamera(scene, canvas, 9, 25, 9);
     createGui();
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize);
-    generateTerrain(scene, renderDistance, mapsize, maxheight);
-    createTree(scene, renderDistance, -7, 0, -7);
+    generateTerrain(scene, renderDistance, mapsize, maxheight, numberOfTrees);
 
     /**
      * Created all the UI elements

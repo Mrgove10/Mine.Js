@@ -15,9 +15,6 @@ export function castRay(scene, camera) {
     //for debugging
     //	let rayHelper = new BABYLON.RayHelper(ray);		
     //	rayHelper.show(scene);		
-
-    var hit = scene.pickWithRay(ray);
-
 }
 
 /**
