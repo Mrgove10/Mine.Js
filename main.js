@@ -6,7 +6,7 @@ import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
 import { hotbar } from './js/UI/hotbar.js';
 import { removeBlock } from './js/interactions/removeBlock.js';
-import { showInventoryConsole } from './js/player/inventory.js';
+import { showInventoryConsole, getInventory } from './js/player/inventory.js';
 import { toggleInventoryUI } from './js/UI/inventory.js';
 import { addBlock } from './js/interactions/addBlock.js';
 
@@ -87,7 +87,7 @@ var createScene = function () {
             },
             function () {
                 showInventoryConsole();
-                toggleInventoryUI(advancedTexture);
+                toggleInventoryUI(advancedTexture, getInventory());
             }
         )
     );

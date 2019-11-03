@@ -1,5 +1,5 @@
 export var inventory = new Array;
-inventory = {
+var inventory = {
     stone: 0,
     grass: 0,
     dirt: 0,
@@ -28,6 +28,10 @@ export function addToInventory(blockString) {
             break;
     }
     // console.log(inventory);
+}
+
+export function getInventory() {
+    return inventory;
 }
 
 export function showInventoryConsole() {
