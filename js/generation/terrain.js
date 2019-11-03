@@ -38,23 +38,23 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
             //top cubes
             var height = Math.ceil(data[x][y]);
             var heightGrass = height - 5;
-            var name = "cube#" + x + height + y;
+            var name = "grass #" + x + "-" + height + "-" + y;
             var cubeInstanceTop = cubeGrass.createInstance(name);
             cubeInstanceTop.position = new BABYLON.Vector3(x, height, y);
             cubeInstanceTop.backFaceCulling = true;
 
             //the cubes underneath
-            //dirt
-            for (let h = 0; h < heightGrass; h++) {
-                name = "cube#" + x + h + y;
+            //stone
+            for (let h = 1; h < heightGrass; h++) {
+                name = "stone #" + x + "-" + h + "-" + y;
                 var cubeInstanceBot = cubeStone.createInstance(name);
                 cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
                 cubeInstanceTop.backFaceCulling = true;
             }
 
-            //stone
+            //dirt
             for (let h = heightGrass; h < height; h++) {
-                name = "cube#" + x + h + y;
+                name = "dirt #" + x + "-" + h + "-" + y;
                 var cubeInstanceBot = cubeDirt.createInstance(name);
                 cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
                 cubeInstanceTop.backFaceCulling = true;

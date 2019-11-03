@@ -21,7 +21,7 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
     for (let i = 0; i < barkHeigh; i++) {
         var cubeWoodd = cubeWood.createInstance("i");
         cubeWoodd.position = new BABYLON.Vector3(xp, i, yp);
-        console.log(i);
+     //   console.log(i);
     }
 
     //level 1 5X5

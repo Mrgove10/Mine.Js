@@ -1,5 +1,3 @@
-import { MAT_wood } from './js/materials/wood.js';
-import { MAT_leaf } from './js/materials/leaf.js';
 import { centerCross } from './js/UI/centerCross.js';
 import { setupLights } from './js/scene/lights.js';
 import { castRay } from './js/interactions/raycasting.js';
@@ -7,6 +5,8 @@ import { setupcamera } from './js/scene/camera.js';
 import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
 import { createTree } from './js/generation/tree.js';
+import { hotbar } from './js/UI/hotbar.js';
+import { removeBlock } from './js/interactions/removeBlock.js';
 
 var mapsize = 25;
 var maxheight = 17;
@@ -58,13 +58,10 @@ var createScene = function () {
                 parameter: 'r'
             },
             function () {
-                var picked = scene.pickWithRay(castRay(scene, camera));
-                console.log(picked.pickedMesh);
-
-                //picked = null;
-                picked.pickedMesh.dispose();
-                //picked.pickedMesh.material.dispose();
-                //    picked.dispose();
+                var pickedBlock = scene.pickWithRay(castRay(scene, camera));
+                if (pickedBlock.pickedMesh != null) { // in case there is no block in front of us
+                    removeBlock(pickedBlock);
+                }
             }
         )
     );
@@ -74,10 +71,7 @@ var createScene = function () {
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize);
     generateTerrain(scene, renderDistance, mapsize, maxheight);
-
     createTree(scene, renderDistance, -7, 0, -7);
-
-
 
     /**
      * Created all the UI elements
@@ -85,7 +79,8 @@ var createScene = function () {
     function createGui() {
         // GUI
         var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-        centerCross(advancedTexture)
+        centerCross(advancedTexture);
+        hotbar(advancedTexture);
     }
 
     scene.registerBeforeRender(function () {

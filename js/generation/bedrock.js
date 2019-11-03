@@ -3,17 +3,19 @@ import { MAT_bedrock } from "../materials/bedrock.js";
 /**
  * Generates a flat plane
  */
-export function generateFlatTerrain(scene,renderDistance,mapsize) {
+export function generateFlatTerrain(scene, renderDistance, mapsize) {
     var cubebedrock = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubebedrock.checkCollisions = true;
     cubebedrock.material = MAT_bedrock(scene);
     cubebedrock.addLODLevel(renderDistance, null);
     cubebedrock.freezeWorldMatrix();
 
-    for (let i = 0; i < mapsize; i++) {
-        for (let j = 0; j < mapsize; j++) {
+    var height = 0;
+    for (let x = 0; x < mapsize; x++) {
+        for (let y = 0; y < mapsize; y++) {
+            var name = "bedrock #" + x + "-" + height + "-" + y;
             var cubebedrockinst = cubebedrock.createInstance(name);
-            cubebedrockinst.position = new BABYLON.Vector3(i, -1, j);
+            cubebedrockinst.position = new BABYLON.Vector3(x, height, y);
             cubebedrockinst.backFaceCulling = true;
         }
     }
