@@ -49,7 +49,7 @@ var createScene = function () {
     scene.collisionsEnabled = true;
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.useGeometryIdsMap = true;
-    scene.debugLayer.show();
+ //   scene.debugLayer.show(); //debug
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
@@ -62,7 +62,7 @@ var createScene = function () {
 
                 //picked = null;
                 picked.pickedMesh.dispose();
-                picked.pickedMesh.material.dispose();
+                //picked.pickedMesh.material.dispose();
                 //    picked.dispose();
             }
         )
@@ -71,12 +71,12 @@ var createScene = function () {
     var camera = setupcamera(scene, canvas);
     createGui();
     setupLights(scene);
-    //generateFlatTerrain(scene, renderDistance, mapsize);
-    //generateTerrain(scene, renderDistance, mapsize);
+    generateFlatTerrain(scene, renderDistance, mapsize);
+    generateTerrain(scene, renderDistance, mapsize);
 
-   createTree(scene, -7, 0, -7);
+    createTree(scene, -7, 0, -7);
 
-   
+
 
     /**
      * Created all the UI elements
@@ -110,6 +110,8 @@ var scene = createScene(); //Call the createScene function
 // Register a render loop to repeatedly render the scene
 engine.runRenderLoop(function () {
     scene.render();
+    var fpsLabel = document.getElementById("fpsLabel");
+    fpsLabel.innerHTML = engine.getFps().toFixed() + " fps";
 });
 
 // Watch for browser/ resize events
