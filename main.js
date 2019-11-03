@@ -7,7 +7,7 @@ import { generateTerrain } from './js/generation/terrain.js';
 import { hotbar } from './js/UI/hotbar.js';
 import { removeBlock } from './js/interactions/removeBlock.js';
 
-var mapsize = 25;
+var mapsize = 27;
 var maxheight = 17;
 var renderDistance = 35;
 var numberOfTrees = 3;

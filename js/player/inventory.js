@@ -1,9 +1,9 @@
-export var inventory;
+export var inventory = new Array;
 export function addToInventory(blockString) {
     console.log("adding " + blockString + " to inventory");
     switch (blockString) {
         case "stone":
-
+            inventory.push("stone");
             break;
         case "grass":
 
@@ -21,4 +21,5 @@ export function addToInventory(blockString) {
         default:
             break;
     }
+    console.log(inventory);
 }
