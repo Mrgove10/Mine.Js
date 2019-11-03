@@ -6,6 +6,7 @@ import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
 import { hotbar } from './js/UI/hotbar.js';
 import { removeBlock } from './js/interactions/removeBlock.js';
+import { showInventory } from './js/player/inventory.js';
 
 var mapsize = 27;
 var maxheight = 17;
@@ -72,7 +73,17 @@ var createScene = function () {
             }
         )
     );
-
+    scene.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            {
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 'i'
+            },
+            function () {
+                showInventory();
+            }
+        )
+    );
     var camera = setupcamera(scene, canvas, 9, 25, 9);
     createGui();
     setupLights(scene);
