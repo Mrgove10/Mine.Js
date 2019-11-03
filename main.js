@@ -8,8 +8,9 @@ import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
 import { createTree } from './js/generation/tree.js';
 
-var mapsize = 10;
-var renderDistance = 20;
+var mapsize = 25;
+var maxheight = 17;
+var renderDistance = 40;
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
@@ -49,7 +50,7 @@ var createScene = function () {
     scene.collisionsEnabled = true;
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.useGeometryIdsMap = true;
- //   scene.debugLayer.show(); //debug
+    //   scene.debugLayer.show(); //debug
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
@@ -72,9 +73,9 @@ var createScene = function () {
     createGui();
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize);
-    generateTerrain(scene, renderDistance, mapsize);
+    generateTerrain(scene, renderDistance, mapsize, maxheight);
 
-    createTree(scene, -7, 0, -7);
+    createTree(scene, renderDistance, -7, 0, -7);
 
 
 
