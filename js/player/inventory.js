@@ -1,10 +1,14 @@
-export var inventory = new Array;
-var inventory = {
-    stone: 0,
-    grass: 0,
-    dirt: 0,
-    leaf: 0,
-    wood: 0,
+export var inventory = {
+    //blocks
+    stone : 0,
+    grass : 0,
+    dirt : 0,
+    leaf : 0,
+    wood : 0,
+
+    //craftables
+    stick :0,
+    woodenPickaxe :0
 }
 export function addToInventory(blockString) {
     //   console.log("adding " + blockString + " to inventory");

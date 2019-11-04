@@ -1,4 +1,4 @@
-export function castRay(scene, camera) {
+export function castRay(camera) {
     var origin = camera.position;
 
     var forward = new BABYLON.Vector3(0, 0, 1);

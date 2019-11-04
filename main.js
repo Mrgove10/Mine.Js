@@ -9,8 +9,9 @@ import { removeBlock } from './js/interactions/removeBlock.js';
 import { showInventoryConsole, getInventory } from './js/player/inventory.js';
 import { toggleInventoryUI } from './js/UI/inventory.js';
 import { addBlock } from './js/interactions/addBlock.js';
+import { getCraftables, craft } from './js/crafting/crafting.js';
 
-var mapsize = 23;
+var mapsize = 20;
 var maxheight = 17;
 var renderDistance = 35;
 
@@ -71,7 +72,7 @@ var createScene = function () {
                 parameter: 'r'
             },
             function () {
-                var pickedBlock = scene.pickWithRay(castRay(scene, camera));
+                var pickedBlock = scene.pickWithRay(castRay(camera));
                 if (pickedBlock.pickedMesh != null) { // in case there is no block in front of us
                     removeBlock(pickedBlock);
                 }
@@ -87,7 +88,22 @@ var createScene = function () {
             },
             function () {
                 showInventoryConsole();
-                toggleInventoryUI(advancedTexture, getInventory());
+              //  toggleInventoryUI(advancedTexture, getInventory());
+            }
+        )
+    );
+    // crafting key key
+    scene.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            {
+                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
+                parameter: 'e'
+            },
+            function () {
+                var possibleCrafts = getCraftables(getInventory());
+                //ui stuff here
+                craft(getInventory(), "stick"); // have to move this later
+                console.log(possibleCrafts);
             }
         )
     );
@@ -99,7 +115,7 @@ var createScene = function () {
                 parameter: 'a'
             },
             function () {
-                addBlock(castRay(scene, camera));
+                addBlock(castRay(camera));
             }
         )
     );
@@ -120,7 +136,7 @@ var createScene = function () {
     }
 
     scene.registerBeforeRender(function () {
-        castRay(scene, camera);
+        castRay(camera);
     });
 
     scene.onPointerUp = function () {
