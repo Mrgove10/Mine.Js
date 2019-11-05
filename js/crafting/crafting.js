@@ -1,26 +1,26 @@
 export var possibleCrafts = [];
-export function getCraftables(inventory) {
-    var craftables = [
-        {
-            name: "stick",
-            needs: {
-                wood: 2,
-            },
-            returns: 4,
-            possible: false
+export var craftables = [
+    {
+        name: "stick",
+        needs: {
+            wood: 2,
         },
-        {
-            name: "woodenPickaxe",
-            needs: {
-                wood: 3,
-                stick: 2,
-            },
-            returns: 1,
-            possible: false
-        }
-    ]
+        returns: 4,
+        possible: false
+    },
+    {
+        name: "woodenPickaxe",
+        needs: {
+            wood: 3,
+            stick: 2,
+        },
+        returns: 1,
+        possible: false
+    }
+]
 
-    possibleCrafts = []; //resets the posssible crafts
+export function getCraftables(inventory) {
+        possibleCrafts = []; //resets the posssible crafts
     craftables.forEach(element => {
         var craftFactor = 0
         //#region verification of sufficiant resources
@@ -51,7 +51,7 @@ export function craft(inventory, objToCraft) {
     var verification = getCraftables(inventory);
     if (verification.includes(objToCraft)) {
         console.log("can craft " + objToCraft);
-        //inventory.objToCraft =// need to add the correct number here
+        var objreturn = craftables.find(x => x.name === objToCraft);
+        inventory.objToCraft += objreturn.returns; //need to add the correct number here
     }
-
 }

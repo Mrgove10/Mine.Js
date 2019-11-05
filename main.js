@@ -11,7 +11,7 @@ import { toggleInventoryUI } from './js/UI/inventory.js';
 import { addBlock } from './js/interactions/addBlock.js';
 import { getCraftables, craft } from './js/crafting/crafting.js';
 
-var mapsize = 20;
+var mapsize = 22;
 var maxheight = 17;
 var renderDistance = 35;
 
