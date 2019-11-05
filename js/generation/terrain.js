@@ -1,6 +1,9 @@
 import { MAT_grass } from "../materials/grass.js";
 import { MAT_dirt } from "../materials/dirt.js";
 import { MAT_stone } from "../materials/stone.js";
+import { MAT_iron } from "../materials/iron.js";
+import { MAT_diamond } from "../materials/diamond.js";
+
 import { createTree } from "./tree.js";
 
 /**
@@ -24,6 +27,18 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
     cubeStone.material = MAT_stone(scene);
     cubeStone.addLODLevel(renderDistance, null);
     cubeStone.freezeWorldMatrix();
+
+    var cubeDiamond = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
+    cubeDiamond.checkCollisions = true;
+    cubeDiamond.material = MAT_diamond(scene);
+    cubeDiamond.addLODLevel(renderDistance, null);
+    cubeDiamond.freezeWorldMatrix();
+
+    var cubeIron = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
+    cubeIron.checkCollisions = true;
+    cubeIron.material = MAT_iron(scene);
+    cubeIron.addLODLevel(renderDistance, null);
+    cubeIron.freezeWorldMatrix();
 
     var data = [];
     var simplex = new SimplexNoise();
@@ -49,13 +64,27 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
             if (tree > 0.985) {
                 createTree(scene, renderDistance, x, height + 1, y)
             }
+
             //the cubes underneath
             //stone
             for (let h = 1; h < heightGrass; h++) {
-                name = "stone #" + x + "-" + h + "-" + y;
-                var cubeInstanceBot = cubeStone.createInstance(name);
+                var diamond = Math.random()
+                var iron = Math.random()
+
+                if (iron > 0.95) {
+                    name = "diamond #" + x + "-" + h + "-" + y;
+                    var cubeInstanceBot = cubeIron.createInstance(name);
+                }
+                else if (diamond > 0.998) {
+                    name = "iron #" + x + "-" + h + "-" + y;
+                    var cubeInstanceBot = cubeDiamond.createInstance(name);
+                }
+                else {
+                    name = "stone #" + x + "-" + h + "-" + y;
+                    var cubeInstanceBot = cubeStone.createInstance(name);
+                }
                 cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
-                cubeInstanceTop.backFaceCulling = true;
+                cubeInstanceBot.backFaceCulling = true;
             }
 
             //dirt

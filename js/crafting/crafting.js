@@ -45,7 +45,6 @@ export function getCraftables(inventory) {
     return possibleCrafts;
 }
 
-
 export function craft(inventory, objToCraft) {
     console.log("wants to craft " + objToCraft);
     var verification = getCraftables(inventory);
