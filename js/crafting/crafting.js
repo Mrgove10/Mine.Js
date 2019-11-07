@@ -16,11 +16,38 @@ export var craftables = [
         },
         returns: 1,
         possible: false
+    },
+    {
+        name: "stonePickaxe",
+        needs: {
+            stone: 3,
+            stick: 2,
+        },
+        returns: 1,
+        possible: false
+    },
+    {
+        name: "ironPickaxe",
+        needs: {
+            iron: 3,
+            stick: 2,
+        },
+        returns: 1,
+        possible: false
+    },
+    {
+        name: "torch",
+        needs: {
+            coal: 1,
+            stick: 1,
+        },
+        returns: 4,
+        possible: false
     }
 ]
 
 export function getCraftables(inventory) {
-        possibleCrafts = []; //resets the posssible crafts
+    possibleCrafts = []; //resets the posssible crafts
     craftables.forEach(element => {
         var craftFactor = 0
         //#region verification of sufficiant resources

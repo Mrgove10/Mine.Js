@@ -7,7 +7,7 @@ import { MAT_diamond } from "../materials/diamond.js";
 import { createTree } from "./tree.js";
 
 /**
- * Generates random terain whit smplex noise
+ * Generates random terain whit simplex noise
  */
 export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
     var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);

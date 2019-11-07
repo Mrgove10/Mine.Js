@@ -57,7 +57,7 @@ var createScene = function () {
         stencil: true
     });
     var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-    var camera = setupcamera(scene, canvas, 9, 25, 9);
+    var camera = setupcamera(scene, canvas, 9, 30, 9);
 
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
     scene.collisionsEnabled = true;
