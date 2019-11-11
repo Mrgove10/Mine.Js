@@ -1,14 +1,16 @@
 export var inventory = {
     //blocks
-    stone : 0,
-    grass : 0,
-    dirt : 0,
-    leaf : 0,
-    wood : 0,
+    stone: 0,
+    grass: 0,
+    dirt: 0,
+    leaf: 0,
+    wood: 0,
+    iron: 0,
+    diamond: 0,
 
     //craftables
-    stick :0,
-    woodenPickaxe :0
+    stick: 0,
+    woodenPickaxe: 0
 }
 export function addToInventory(blockString) {
     //   console.log("adding " + blockString + " to inventory");
@@ -27,6 +29,12 @@ export function addToInventory(blockString) {
             break;
         case "wood":
             inventory.wood += 1
+            break;
+        case "diamond":
+            inventory.diamond += 1
+            break;
+        case "iron":
+            inventory.iron += 1
             break;
         default:
             break;

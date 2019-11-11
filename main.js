@@ -31,7 +31,7 @@ var renderDistance = 35;
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
-function initPointerLock(canvas, camera) {
+/*function initPointerLock(canvas, camera) {
     // On click event, request pointer lock
     canvas.addEventListener("click", function (evt) {
         canvas.requestPointerLock = canvas.requestPointerLock || canvas.msRequestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
@@ -60,7 +60,7 @@ function initPointerLock(canvas, camera) {
     document.addEventListener("mspointerlockchange", pointerlockchange, false);
     document.addEventListener("mozpointerlockchange", pointerlockchange, false);
     document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
-}
+}*/
 
 var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
 var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
@@ -100,6 +100,7 @@ var createScene = function () {
                 parameter: 'i'
             },
             function () {
+                engine.exitPointerlock();
                 showInventoryConsole();
                 toggleInventoryUI(advancedTexture, getInventory());
             }
@@ -152,7 +153,7 @@ var createScene = function () {
     scene.registerBeforeRender(function () {
         castRay(camera);
     });
-
+    //pointer lock
     scene.onPointerUp = function () {
         if (!document.pointerLockElement) {
             engine.enterPointerlock();

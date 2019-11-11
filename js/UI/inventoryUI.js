@@ -8,8 +8,9 @@ export function toggleInventoryUI(advancedTexture, inventory) {
     grid.addColumnDefinition(0.2);
     grid.addColumnDefinition(0.2);
     grid.addColumnDefinition(0.2);
-    grid.addRowDefinition(0.5);
-    grid.addRowDefinition(0.5);
+    grid.addRowDefinition(0.333);
+    grid.addRowDefinition(0.333);
+    grid.addRowDefinition(0.333);
 
     grid.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_CENTER;
     grid.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
@@ -20,10 +21,9 @@ export function toggleInventoryUI(advancedTexture, inventory) {
     var col = 0;
     //materials
     for (var prop in inventory) {
-        console.log(row + col);
         createInvBlock(grid, prop, row, col, inventory);
         col++;
-        if (col >= 5) {
+        if (col >= 6) {
             col = 0;
             row++;
         }
