@@ -16,33 +16,33 @@ export function toggleInventoryUI(advancedTexture, inventory) {
     grid.background = "gray";
     advancedTexture.addControl(grid);
 
+    var row = 0;
+    var col = 0;
     //materials
-    createInvBlock(grid, inventory, "dirt", 0, 0);
-  /*  grid.addControl(new BABYLON.GUI.Image("grass", "images/grass.png"), 0, 1);
-    grid.addControl(new BABYLON.GUI.Image("wood", "images/wood.png"), 0, 2);
-    grid.addControl(new BABYLON.GUI.Image("leaf", "images/leaf.png"), 0, 3);
-    grid.addControl(new BABYLON.GUI.Image("stone", "images/stone.png"), 0, 4);
-    grid.addControl(new BABYLON.GUI.Image("iron", "images/iron.png"), 1, 0);
-    grid.addControl(new BABYLON.GUI.Image("diamond", "images/diamond.png"), 1, 1);
-/*
-
-    //drag and drop
-    //https://www.babylonjs-playground.com/#XCPP9Y#134
-
-    /* var rect = new BABYLON.GUI.Rectangle();
-    rect.background = "green";
-    rect.thickness = 0;
-    grid.addControl(rect, 0, 1);*/
+    for (var prop in inventory) {
+        console.log(row + col);
+        createInvBlock(grid, prop, row, col, inventory);
+        col++;
+        if (col >= 5) {
+            col = 0;
+            row++;
+        }
+    }
 }
 
-function createInvBlock(grid, inventory, name, row, col) {
-    grid.addControl(new BABYLON.GUI.Image(name, "images/" + name + ".png"), row, col);
-
-    console.log(name);
+/**
+ * creates a block in the inventory
+ * @param {*} grid 
+ * @param {*} prop 
+ * @param {*} row 
+ * @param {*} col 
+ * @param {*} inventory 
+ */
+function createInvBlock(grid, prop, row, col, inventory) {
+    grid.addControl(new BABYLON.GUI.Image(prop, "images/" + prop + ".png"), row, col);
     var text = new BABYLON.GUI.TextBlock();
-    text.text = inventory.name.toString().toString();
+    text.text = inventory[prop].toString();
     text.color = "white";
     text.fontSize = 30;
     grid.addControl(text, row, col);
-
 }
