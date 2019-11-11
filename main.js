@@ -1,15 +1,28 @@
+//ui
 import { centerCross } from './js/UI/centerCross.js';
+import { toggleInventoryUI } from './js/UI/inventoryUI.js/';
+import { help } from './js/UI/help.js';
+import { hotbar } from './js/UI/hotbar.js';
+
+//scene
 import { setupLights } from './js/scene/lights.js';
-import { castRay } from './js/interactions/raycasting.js';
 import { setupcamera } from './js/scene/camera.js';
+
+//interactions
+import { castRay } from './js/interactions/raycasting.js';
+import { removeBlock } from './js/interactions/removeBlock.js';
+import { addBlock } from './js/interactions/addBlock.js';
+
+//generation
 import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
-import { hotbar } from './js/UI/hotbar.js';
-import { removeBlock } from './js/interactions/removeBlock.js';
+
+//player
 import { showInventoryConsole, getInventory } from './js/player/inventory.js';
-import { toggleInventoryUI } from './js/UI/inventory.js';
-import { addBlock } from './js/interactions/addBlock.js';
+
+//crafting
 import { getCraftables, craft } from './js/crafting/crafting.js';
+
 
 var mapsize = 20;
 var maxheight = 17;
@@ -88,7 +101,7 @@ var createScene = function () {
             },
             function () {
                 showInventoryConsole();
-              //  toggleInventoryUI(advancedTexture, getInventory());
+                toggleInventoryUI(advancedTexture, getInventory());
             }
         )
     );
@@ -131,6 +144,7 @@ var createScene = function () {
      */
     function createGui() {
         // GUI
+        help(advancedTexture);
         centerCross(advancedTexture);
         hotbar(advancedTexture);
     }
