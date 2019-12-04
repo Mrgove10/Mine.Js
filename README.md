@@ -1,4 +1,6 @@
 # Mine.js
+![Image of the game](docs/babylon.png)
+![Image of the game](docs/mc.png)
 
 **[Play ▶](https://mrgove10.github.io/Mine.Js/)**
 
