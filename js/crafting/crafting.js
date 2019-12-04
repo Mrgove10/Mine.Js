@@ -1,3 +1,5 @@
+import { addToInventory } from '../player/inventory.js';
+
 export var possibleCrafts = [];
 export var craftables = [
     {
@@ -50,7 +52,6 @@ export function getCraftables(inventory) {
     possibleCrafts = []; //resets the posssible crafts
     craftables.forEach(element => {
         var craftFactor = 0
-        //#region verification of sufficiant resources
         if (inventory.wood >= element.needs.wood) {
             craftFactor++;
         }
@@ -60,7 +61,6 @@ export function getCraftables(inventory) {
         if (inventory.stone >= element.needs.stone) {
             craftFactor++;
         }
-        //#endregion
         if (craftFactor == Object.keys(element.needs).length) {
             element.possible = true;
             possibleCrafts.push(element.name);
@@ -78,6 +78,6 @@ export function craft(inventory, objToCraft) {
     if (verification.includes(objToCraft)) {
         console.log("can craft " + objToCraft);
         var objreturn = craftables.find(x => x.name === objToCraft);
-        inventory.objToCraft += objreturn.returns; //need to add the correct number here
+        addToInventory(objreturn.name, objreturn.returns);
     }
 }

@@ -2,7 +2,7 @@ import { MAT_wood } from "../materials/wood.js";
 import { MAT_leaf } from "../materials/leaf.js";
 
 export function createTree(scene, renderDistance, xp, zp, yp) {
-    console.log("generating tree");
+    //console.log("generating tree");
 
     var cubeWood = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeWood.checkCollisions = true;

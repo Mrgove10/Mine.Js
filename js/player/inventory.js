@@ -12,29 +12,33 @@ export var inventory = {
     stick: 0,
     woodenPickaxe: 0
 }
-export function addToInventory(blockString) {
+
+export function addToInventory(objString, number) {
     //   console.log("adding " + blockString + " to inventory");
-    switch (blockString) {
+    switch (objString) {
         case "stone":
-            inventory.stone += 1;
+            inventory.stone += number;
             break;
         case "grass":
-            inventory.grass += 1;
+            inventory.grass += number;
             break;
         case "dirt":
-            inventory.dirt += 1;
+            inventory.dirt += number;
             break;
         case "leaf":
-            inventory.leaf += 1;
+            inventory.leaf += number;
             break;
         case "wood":
-            inventory.wood += 1
+            inventory.wood += number;
             break;
         case "diamond":
-            inventory.diamond += 1
+            inventory.diamond += number;
             break;
         case "iron":
-            inventory.iron += 1
+            inventory.iron += number;
+            break;
+        case "stick":
+            inventory.stick += number;
             break;
         default:
             break;

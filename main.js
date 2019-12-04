@@ -1,6 +1,6 @@
 //ui
 import { centerCross } from './js/UI/centerCross.js';
-import { toggleInventoryUI } from './js/UI/inventoryUI.js/';
+import { toggleInventoryUI } from './js/UI/inventoryUI.js';
 import { help } from './js/UI/help.js';
 import { hotbar } from './js/UI/hotbar.js';
 
