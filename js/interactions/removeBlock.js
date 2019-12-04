@@ -1,5 +1,9 @@
 import { addToInventory } from '../player/inventory.js';
 
+/**
+ * Remouves a block
+ * @param {*} pickedBlock 
+ */
 export function removeBlock(pickedBlock) {
     var id = pickedBlock.pickedMesh.id;
     var blocktype = id.split(" ")[0]; //finds the blocktype based on its id

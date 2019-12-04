@@ -93,7 +93,7 @@ var createScene = function () {
         )
     );
     // Inventory key
-    scene.actionManager.registerAction(
+   /* scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
                 trigger: BABYLON.ActionManager.OnKeyDownTrigger,
@@ -105,7 +105,7 @@ var createScene = function () {
                 toggleInventoryUI(advancedTexture, getInventory());
             }
         )
-    );
+    );*/
     // crafting key key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
@@ -134,12 +134,11 @@ var createScene = function () {
         )
     );
 
-
-
     createGui();
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize);
     generateTerrain(scene, renderDistance, mapsize, maxheight);
+    
     /**
      * Created all the UI elements
      */
@@ -147,7 +146,8 @@ var createScene = function () {
         // GUI
         help(advancedTexture);
         centerCross(advancedTexture);
-        hotbar(advancedTexture);
+      //  hotbar(advancedTexture);
+        toggleInventoryUI(advancedTexture)
     }
 
     scene.registerBeforeRender(function () {

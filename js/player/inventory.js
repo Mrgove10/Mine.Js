@@ -40,6 +40,9 @@ export function addToInventory(objString, number) {
         case "stick":
             inventory.stick += number;
             break;
+        case "woodenPickaxe":
+            inventory.woodenPickaxe += number;
+            break;
         default:
             break;
     }

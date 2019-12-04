@@ -48,6 +48,12 @@ export var craftables = [
     }
 ]
 
+//https://www.babylonjs-playground.com/#XCPP9Y#888
+
+/**
+ * Gets all the craftable objects
+ * @param {} inventory 
+ */
 export function getCraftables(inventory) {
     possibleCrafts = []; //resets the posssible crafts
     craftables.forEach(element => {
@@ -72,6 +78,11 @@ export function getCraftables(inventory) {
     return possibleCrafts;
 }
 
+/**
+ * Crafts
+ * @param {*} inventory 
+ * @param {*} objToCraft 
+ */
 export function craft(inventory, objToCraft) {
     console.log("wants to craft " + objToCraft);
     var verification = getCraftables(inventory);
