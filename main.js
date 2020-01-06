@@ -27,7 +27,7 @@ import { getCraftables, craft } from './js/crafting/crafting.js';
 var mapsize = 20;
 var maxheight = 17;
 var renderDistance = 35;
-
+var currentHand = "hand"
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
@@ -87,7 +87,7 @@ var createScene = function () {
             function () {
                 var pickedBlock = scene.pickWithRay(castRay(camera));
                 if (pickedBlock.pickedMesh != null) { // in case there is no block in front of us
-                    removeBlock(pickedBlock);
+                    removeBlock(pickedBlock,currentHand);
                 }
             }
         )
@@ -147,7 +147,7 @@ var createScene = function () {
         help(advancedTexture);
         centerCross(advancedTexture);
       //  hotbar(advancedTexture);
-        toggleInventoryUI(advancedTexture)
+      //  toggleInventoryUI(advancedTexture)
     }
 
     scene.registerBeforeRender(function () {

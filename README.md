@@ -1,4 +1,5 @@
 # Mine.js
+
 |||
 |---|---|
 |![Image of the game](docs/babylon.png)|![Image of the game](docs/mc.png)|
@@ -15,6 +16,25 @@ Your goal is to find diamond as quick as possible ! It is heavily inspierd by [M
 - Random procedural level generation
 - Graphics similar to minecraft
 
+## Craftables
+
+Object are autocrafted
+
+|object|recipe|name (internal)|
+|---|---|---|
+|stick|2x wood|stick|
+|wooden pickaxe|5x sticks|woodenPickaxe|
+|stone pickaxe|2x sticks + 3x stone|stonePickaxe|
+|iron pickaxe|2x sticks + 3x iron|ironPickaxe|
+
 ## Info
 
 if you have an adbblocker, some scripts may be blocked, please deactivate your adblock
+
+## roadmap
+
+- autocrafting
+- feed to keep up updated in the game events
+- wood drops sticks only
+- fastest way to find diamond
+  
