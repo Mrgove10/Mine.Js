@@ -12,7 +12,6 @@ export var inventory = {
     diamond: 0,
 
     //craftables
-    stick: 0,
     woodenPickaxe: 0,
     stonePickaxe: 0,
     ironPickaxe: 0,
@@ -46,26 +45,23 @@ export function addToInventory(objString, number) {
         case "iron":
             inventory.iron += number;
             break;
-        case "stick":
-            //remouves necessairy things (could be improuved)
-            inventory.wood -= 2;
-            //Adds the objecy to the inventory
-            inventory.stick += number;
-            break;
         case "woodenPickaxe":
             //remouves necessairy things (could be improuved)
-            inventory.stick -= 2;
-            inventory.wood -= 3;
+            inventory.wood -= 5;
             //Adds the objecy to the inventory
             inventory.woodenPickaxe += number;
-
             break;
         case "stonePickaxe":
-            
+            //remouves necessairy things (could be improuved)
+            inventory.wood -= 2;
+            inventory.stone -= 3;
             //Adds the objecy to the inventory
             inventory.stonePickaxe += number;
             break;
         case "ironPickaxe":
+            //remouves necessairy things (could be improuved)
+            inventory.wood -= 2;
+            inventory.iron -= 3;
             //Adds the objecy to the inventory
             inventory.ironPickaxe += number;
             break;

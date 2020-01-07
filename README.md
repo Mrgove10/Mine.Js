@@ -22,8 +22,7 @@ Object are autocrafted
 
 |object|recipe|name (internal)|
 |---|---|---|
-|stick|2x wood|stick|
-|wooden pickaxe|5x sticks|woodenPickaxe|
+|wooden pickaxe|5x wood|woodenPickaxe|
 |stone pickaxe|2x sticks + 3x stone|stonePickaxe|
 |iron pickaxe|2x sticks + 3x iron|ironPickaxe|
 

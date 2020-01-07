@@ -91,7 +91,7 @@ var createScene = function () {
                 }
                 ///-----
                 var possibleCrafts = getCraftables(getInventory());
-                craft(getInventory(), "stick"); // have to move this later
+                craft(getInventory(), "woodenPickaxe"); // have to move this later
                 console.log("possible crafts:");
                 console.log(possibleCrafts);
                 console.log("inventory :");
@@ -99,35 +99,6 @@ var createScene = function () {
             }
         )
     );
-    // Inventory key
-   /* scene.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(
-            {
-                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-                parameter: 'i'
-            },
-            function () {
-                engine.exitPointerlock();
-                showInventoryConsole();
-                toggleInventoryUI(advancedTexture, getInventory());
-            }
-        )
-    );*/
-    // crafting key key
-  /*  scene.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(
-            {
-                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-                parameter: 'e'
-            },
-            function () {
-                var possibleCrafts = getCraftables(getInventory());
-                //ui stuff here
-                craft(getInventory(), "stick"); // have to move this later
-                console.log(possibleCrafts);
-            }
-        )
-    );*/
     //Add block key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
