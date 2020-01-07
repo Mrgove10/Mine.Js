@@ -1,12 +1,13 @@
 {
-  "name": "jeujs",
+  "name": "mine.js",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
+  "repository": "https://github.com/Mrgove10/Mine.Js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Adrien R",
   "license": "MIT",
   "dependencies": {
     "babylonjs": "^4.0.3",

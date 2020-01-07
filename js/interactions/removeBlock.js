@@ -12,7 +12,7 @@ export function removeBlock(pickedBlock, handObject) {
         switch (handObject) {
             case "hand":
                 if (blocktype == "stone" || blocktype == "iron" || blocktype == "diamond") {
-                    console.log("you can't break this with your bare hands");
+                    console.warn("you can't break this with your bare hands");
                 }
                 else {
                     pickedBlock.pickedMesh.dispose(); //Deletes the block 
@@ -21,7 +21,7 @@ export function removeBlock(pickedBlock, handObject) {
                 break;
             case "woodenPickaxe":
                 if (blocktype == "iron" || blocktype == "diamond") {
-                    console.log("you can't break this with your wooden pickaxe");
+                    console.warn("you can't break this with your wooden pickaxe");
                 }
                 else {
                     pickedBlock.pickedMesh.dispose(); //Deletes the block 
@@ -30,7 +30,7 @@ export function removeBlock(pickedBlock, handObject) {
                 break;
             case "stonePickaxe":
                 if (blocktype == "diamond") {
-                    console.log("you can't break this with your stone pickaxe");
+                    console.warn("you can't break this with your stone pickaxe");
                 }
                 else {
                     pickedBlock.pickedMesh.dispose(); //Deletes the block 

@@ -1,3 +1,6 @@
+/**
+ * Inventry of the player
+ */
 export var inventory = {
     //blocks
     stone: 0,
@@ -10,11 +13,17 @@ export var inventory = {
 
     //craftables
     stick: 0,
-    woodenPickaxe: 0
+    woodenPickaxe: 0,
+    stonePickaxe: 0,
+    ironPickaxe: 0,
 }
 
+/**
+ * Ands an objct to the inventory 
+ * @param {} objString 
+ * @param {*} number 
+ */
 export function addToInventory(objString, number) {
-    //   console.log("adding " + blockString + " to inventory");
     switch (objString) {
         case "stone":
             inventory.stone += number;
@@ -38,21 +47,43 @@ export function addToInventory(objString, number) {
             inventory.iron += number;
             break;
         case "stick":
+            //remouves necessairy things (could be improuved)
+            inventory.wood -= 2;
+            //Adds the objecy to the inventory
             inventory.stick += number;
             break;
         case "woodenPickaxe":
+            //remouves necessairy things (could be improuved)
+            inventory.stick -= 2;
+            inventory.wood -= 3;
+            //Adds the objecy to the inventory
             inventory.woodenPickaxe += number;
+
+            break;
+        case "stonePickaxe":
+            
+            //Adds the objecy to the inventory
+            inventory.stonePickaxe += number;
+            break;
+        case "ironPickaxe":
+            //Adds the objecy to the inventory
+            inventory.ironPickaxe += number;
             break;
         default:
             break;
     }
-    // console.log(inventory);
 }
 
+/**
+ * Returns the players inventory
+ */
 export function getInventory() {
     return inventory;
 }
 
+/**
+ * SHows theinventory in the console fo easier dev
+ */
 export function showInventoryConsole() {
     console.log(inventory);
 }

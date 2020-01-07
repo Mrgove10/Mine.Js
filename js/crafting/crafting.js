@@ -7,7 +7,7 @@ export var craftables = [
         needs: {
             wood: 2,
         },
-        returns: 4,
+        returns: 2,
         possible: false
     },
     {
@@ -36,15 +36,6 @@ export var craftables = [
         },
         returns: 1,
         possible: false
-    },
-    {
-        name: "torch",
-        needs: {
-            coal: 1,
-            stick: 1,
-        },
-        returns: 4,
-        possible: false
     }
 ]
 
@@ -67,6 +58,9 @@ export function getCraftables(inventory) {
         if (inventory.stone >= element.needs.stone) {
             craftFactor++;
         }
+        if (inventory.iron >= element.needs.iron) {
+            craftFactor++;
+        }
         if (craftFactor == Object.keys(element.needs).length) {
             element.possible = true;
             possibleCrafts.push(element.name);
@@ -77,6 +71,7 @@ export function getCraftables(inventory) {
     });
     return possibleCrafts;
 }
+
 
 /**
  * Crafts

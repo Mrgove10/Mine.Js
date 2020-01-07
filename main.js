@@ -89,6 +89,13 @@ var createScene = function () {
                 if (pickedBlock.pickedMesh != null) { // in case there is no block in front of us
                     removeBlock(pickedBlock,currentHand);
                 }
+                ///-----
+                var possibleCrafts = getCraftables(getInventory());
+                craft(getInventory(), "stick"); // have to move this later
+                console.log("possible crafts:");
+                console.log(possibleCrafts);
+                console.log("inventory :");
+                console.log(getInventory());
             }
         )
     );
@@ -107,7 +114,7 @@ var createScene = function () {
         )
     );*/
     // crafting key key
-    scene.actionManager.registerAction(
+  /*  scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
                 trigger: BABYLON.ActionManager.OnKeyDownTrigger,
@@ -120,7 +127,7 @@ var createScene = function () {
                 console.log(possibleCrafts);
             }
         )
-    );
+    );*/
     //Add block key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
