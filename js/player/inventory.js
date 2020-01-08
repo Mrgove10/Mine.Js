@@ -1,5 +1,5 @@
 /**
- * Inventry of the player
+ * Inventory of the player
  */
 export var inventory = {
     //blocks

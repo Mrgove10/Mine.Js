@@ -10,30 +10,35 @@ import { createTree } from "./tree.js";
  * Generates random terain whit simplex noise
  */
 export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
+    //Grass
     var cubeGrass = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeGrass.checkCollisions = true;
     cubeGrass.material = MAT_grass(scene);
     cubeGrass.addLODLevel(renderDistance, null);
     cubeGrass.freezeWorldMatrix();
 
+    //Dirt
     var cubeDirt = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeDirt.checkCollisions = true;
     cubeDirt.material = MAT_dirt(scene);
     cubeDirt.addLODLevel(renderDistance, null);
     cubeDirt.freezeWorldMatrix();
 
+    //Stone
     var cubeStone = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeStone.checkCollisions = true;
     cubeStone.material = MAT_stone(scene);
     cubeStone.addLODLevel(renderDistance, null);
     cubeStone.freezeWorldMatrix();
 
+    //Diamond
     var cubeDiamond = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeDiamond.checkCollisions = true;
     cubeDiamond.material = MAT_diamond(scene);
     cubeDiamond.addLODLevel(renderDistance, null);
     cubeDiamond.freezeWorldMatrix();
 
+    //Iron
     var cubeIron = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeIron.checkCollisions = true;
     cubeIron.material = MAT_iron(scene);
@@ -58,7 +63,8 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
             var name = "grass #" + x + "-" + height + "-" + y;
             var cubeInstanceTop = cubeGrass.createInstance(name);
             cubeInstanceTop.position = new BABYLON.Vector3(x, height, y);
-            cubeInstanceTop.backFaceCulling = true;
+            cubeInstanceTop.checkCollisions = true;
+            cubeInstanceTop.backFaceCulling = true;           
 
             var tree = Math.random()
             if (tree > 0.985) {
@@ -74,14 +80,17 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
                 if (iron > 0.98) {
                     name = "diamond #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeIron.createInstance(name);
+                    cubeInstanceBot.checkCollisions = true;
                 }
                 else if (diamond > 0.998) {
                     name = "iron #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeDiamond.createInstance(name);
+                    cubeInstanceBot.checkCollisions = true;
                 }
                 else {
                     name = "stone #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeStone.createInstance(name);
+                    cubeInstanceBot.checkCollisions = true;
                 }
                 cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
                 cubeInstanceBot.backFaceCulling = true;
@@ -92,6 +101,7 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
                 name = "dirt #" + x + "-" + h + "-" + y;
                 var cubeInstanceBot = cubeDirt.createInstance(name);
                 cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
+                cubeInstanceBot.checkCollisions = true;
                 cubeInstanceTop.backFaceCulling = true;
             }
         }

@@ -34,6 +34,4 @@ if you have an adbblocker, some scripts may be blocked, please deactivate your a
 
 - autocrafting
 - feed to keep up updated in the game events
-- wood drops sticks only
 - fastest way to find diamond
-  

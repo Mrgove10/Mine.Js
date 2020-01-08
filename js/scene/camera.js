@@ -11,12 +11,14 @@ export function setupcamera(scene, canvas, x, y, z) {
     camera.position = new BABYLON.Vector3(x, y, z);
     camera.attachControl(canvas, true);
     camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-    //camera.applyGravity = true;
+    camera.applyGravity = true;
     camera.checkCollisions = true;
-    //Adds zqsd to be able to control the camera.
+
+    //Adds zqsd to be able to control the camera. only work onazerty keyboard
     camera.keysUp.push(90); // z
     camera.keysDown.push(83); // s
     camera.keysRight.push(68); //d
     camera.keysLeft.push(81); //q
+
     return camera;
 }

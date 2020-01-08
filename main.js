@@ -26,7 +26,7 @@ import { getCraftables, craft } from './js/crafting/crafting.js';
 
 var mapsize = 20;
 var maxheight = 17;
-var renderDistance = 35;
+var renderDistance = 10;
 var currentHand = "hand"
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
@@ -73,10 +73,12 @@ var createScene = function () {
     var camera = setupcamera(scene, canvas, 9, 30, 9);
 
     scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
-    scene.collisionsEnabled = true;
+    scene.collisionsEnabled = true; //Activates colisions in the scene
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.useGeometryIdsMap = true;
-    //   scene.debugLayer.show(); //debug
+
+    //   scene.debugLayer.show(); //debug layer
+
     // Remove block key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
@@ -99,6 +101,7 @@ var createScene = function () {
             }
         )
     );
+
     //Add block key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
@@ -114,14 +117,13 @@ var createScene = function () {
 
     createGui();
     setupLights(scene);
-    generateFlatTerrain(scene, renderDistance, mapsize);
-    generateTerrain(scene, renderDistance, mapsize, maxheight);
+    generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
+    generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
     
     /**
      * Created all the UI elements
      */
     function createGui() {
-        // GUI
         help(advancedTexture);
         centerCross(advancedTexture);
       //  hotbar(advancedTexture);
@@ -131,6 +133,7 @@ var createScene = function () {
     scene.registerBeforeRender(function () {
         castRay(camera);
     });
+    
     //pointer lock
     scene.onPointerUp = function () {
         if (!document.pointerLockElement) {
@@ -140,9 +143,6 @@ var createScene = function () {
             engine.exitPointerlock();
         }
     }
-
-    scene.useGuseGeometryIdsMap = true;
-
     return scene;
 };
 
@@ -151,6 +151,7 @@ var scene = createScene(); //Call the createScene function
 // Register a render loop to repeatedly render the scene
 engine.runRenderLoop(function () {
     scene.render();
+    console.log(scene.cameras[0].position)
     var fpsLabel = document.getElementById("fpsLabel");
     fpsLabel.innerHTML = engine.getFps().toFixed() + " fps";
 });
