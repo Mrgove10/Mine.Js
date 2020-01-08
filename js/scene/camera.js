@@ -10,7 +10,7 @@ export function setupcamera(scene, canvas, x, y, z) {
     camera.speed = 0.5;
     camera.position = new BABYLON.Vector3(x, y, z);
     camera.attachControl(canvas, true);
-    camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+    camera.ellipsoid = new BABYLON.Vector3(0.85, 0.85, 0.85);
     camera.applyGravity = true;
     camera.checkCollisions = true;
 

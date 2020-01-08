@@ -1,8 +1,8 @@
 # Mine.js
 
-|||
-|---|---|
-|![Image of the game](docs/babylon.png)|![Image of the game](docs/mc.png)|
+|                                        |                                   |
+| -------------------------------------- | --------------------------------- |
+| ![Image of the game](docs/babylon.png) | ![Image of the game](docs/mc.png) |
 
 **[Play ▶](https://mrgove10.github.io/Mine.Js/)**
 
@@ -20,11 +20,11 @@ Your goal is to find diamond as quick as possible ! It is heavily inspierd by [M
 
 Object are autocrafted
 
-|object|recipe|name (internal)|
-|---|---|---|
-|wooden pickaxe|5x wood|woodenPickaxe|
-|stone pickaxe|2x sticks + 3x stone|stonePickaxe|
-|iron pickaxe|2x sticks + 3x iron|ironPickaxe|
+| object         | recipe               | name (internal) |
+| -------------- | -------------------- | --------------- |
+| wooden pickaxe | 5x wood              | woodenPickaxe   |
+| stone pickaxe  | 2x sticks + 3x stone | stonePickaxe    |
+| iron pickaxe   | 2x sticks + 3x iron  | ironPickaxe     |
 
 ## Info
 

@@ -1,3 +1,3 @@
-export function addBlock(ray){
+export function addBlock(ray) {
     console.log(ray);
 }

@@ -63,8 +63,9 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
             var name = "grass #" + x + "-" + height + "-" + y;
             var cubeInstanceTop = cubeGrass.createInstance(name);
             cubeInstanceTop.position = new BABYLON.Vector3(x, height, y);
+            cubeInstanceTop.freezeWorldMatrix();
             cubeInstanceTop.checkCollisions = true;
-            cubeInstanceTop.backFaceCulling = true;           
+            cubeInstanceTop.backFaceCulling = true;
 
             var tree = Math.random()
             if (tree > 0.985) {
@@ -80,20 +81,19 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
                 if (iron > 0.98) {
                     name = "diamond #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeIron.createInstance(name);
-                    cubeInstanceBot.checkCollisions = true;
                 }
                 else if (diamond > 0.998) {
                     name = "iron #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeDiamond.createInstance(name);
-                    cubeInstanceBot.checkCollisions = true;
                 }
                 else {
                     name = "stone #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeStone.createInstance(name);
-                    cubeInstanceBot.checkCollisions = true;
                 }
                 cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
                 cubeInstanceBot.backFaceCulling = true;
+                cubeInstanceBot.freezeWorldMatrix();
+                cubeInstanceBot.checkCollisions = true;
             }
 
             //dirt
@@ -101,8 +101,9 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
                 name = "dirt #" + x + "-" + h + "-" + y;
                 var cubeInstanceBot = cubeDirt.createInstance(name);
                 cubeInstanceBot.position = new BABYLON.Vector3(x, h, y);
+                cubeInstanceBot.freezeWorldMatrix();
                 cubeInstanceBot.checkCollisions = true;
-                cubeInstanceTop.backFaceCulling = true;
+                cubeInstanceBot.backFaceCulling = true;
             }
         }
     }

@@ -1,5 +1,5 @@
 export function hotbar(advancedTexture) {
-    var grid = new BABYLON.GUI.Grid();   
+    var grid = new BABYLON.GUI.Grid();
     grid.addColumnDefinition(100, true);
     grid.addColumnDefinition(100, true);
     grid.addColumnDefinition(100, true);

@@ -28,6 +28,7 @@ var mapsize = 20;
 var maxheight = 17;
 var renderDistance = 10;
 var currentHand = "hand"
+var gravity = -5 // earth gravity = 9.81
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
 //had to do this because the basic function was not waorking for some reason
@@ -72,7 +73,7 @@ var createScene = function () {
     var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     var camera = setupcamera(scene, canvas, 9, 30, 9);
 
-    scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+    scene.gravity = new BABYLON.Vector3(0, gravity, 0);
     scene.collisionsEnabled = true; //Activates colisions in the scene
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.useGeometryIdsMap = true;
@@ -89,9 +90,8 @@ var createScene = function () {
             function () {
                 var pickedBlock = scene.pickWithRay(castRay(camera));
                 if (pickedBlock.pickedMesh != null) { // in case there is no block in front of us
-                    removeBlock(pickedBlock,currentHand);
+                    removeBlock(pickedBlock, currentHand);
                 }
-                ///-----
                 var possibleCrafts = getCraftables(getInventory());
                 craft(getInventory(), "woodenPickaxe"); // have to move this later
                 console.log("possible crafts:");
@@ -119,21 +119,21 @@ var createScene = function () {
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
     generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
-    
+
     /**
      * Created all the UI elements
      */
     function createGui() {
         help(advancedTexture);
         centerCross(advancedTexture);
-      //  hotbar(advancedTexture);
-      //  toggleInventoryUI(advancedTexture)
+        //  hotbar(advancedTexture);
+        //  toggleInventoryUI(advancedTexture)
     }
 
     scene.registerBeforeRender(function () {
         castRay(camera);
     });
-    
+
     //pointer lock
     scene.onPointerUp = function () {
         if (!document.pointerLockElement) {
