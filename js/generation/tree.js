@@ -18,12 +18,12 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
 
     var barkHeigh = 6;
 
-
     //bark
     for (let i = zp; i < zp + barkHeigh; i++) {
         var name = "wood #" + xp + "-" + zp + "-" + yp;
         var cubeWoodd = cubeWood.createInstance(name);
         cubeWoodd.position = new BABYLON.Vector3(xp, i, yp);
+        cubeWoodd.checkCollisions = true;
     }
 
     //level 1 5X5
@@ -33,6 +33,7 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
             var name = "leaf #" + x + "-" + height + "-" + y;
             var cubeleaf = cubeLeaf.createInstance(name);
             cubeleaf.position = new BABYLON.Vector3(x - 2, height, y - 2);
+            cubeleaf.checkCollisions = true;
         }
     }
 
@@ -43,6 +44,7 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
             var name = "leaf #" + x + "-" + height + "-" + y;
             var cubeleaf = cubeLeaf.createInstance(name);
             cubeleaf.position = new BABYLON.Vector3(x - 2, height, y - 2);
+            cubeleaf.checkCollisions = true;
         }
     }
 
@@ -53,6 +55,7 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
             var name = "leaf #" + x + "-" + height + "-" + y;
             var cubeleaf = cubeLeaf.createInstance(name);
             cubeleaf.position = new BABYLON.Vector3(x - 1, height, y - 1);
+            cubeleaf.checkCollisions = true; 
         }
     }
 

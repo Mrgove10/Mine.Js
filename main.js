@@ -1,8 +1,6 @@
 //ui
 import { centerCross } from './js/UI/centerCross.js';
-import { toggleInventoryUI } from './js/UI/inventoryUI.js';
 import { help } from './js/UI/help.js';
-import { hotbar } from './js/UI/hotbar.js';
 
 //scene
 import { setupLights } from './js/scene/lights.js';
@@ -28,41 +26,9 @@ var mapsize = 20;
 var maxheight = 17;
 var renderDistance = 10;
 var currentHand = "hand"
-var gravity = -5 // earth gravity = 9.81
+var gravity = -1 // earth gravity = 9.81
 //see : https://www.babylonjs-playground.com/#4P4FTN#1 
 // for pointer lock 
-//had to do this because the basic function was not waorking for some reason
-/*function initPointerLock(canvas, camera) {
-    // On click event, request pointer lock
-    canvas.addEventListener("click", function (evt) {
-        canvas.requestPointerLock = canvas.requestPointerLock || canvas.msRequestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock;
-        if (canvas.requestPointerLock) {
-            canvas.requestPointerLock();
-        }
-    }, false);
-
-    // Event listener when the pointerlock is updated (or removed by pressing ESC for example).
-    var pointerlockchange = function (event) {
-        var controlEnabled = (
-            document.mozPointerLockElement === canvas
-            || document.webkitPointerLockElement === canvas
-            || document.msPointerLockElement === canvas
-            || document.pointerLockElement === canvas);
-        // If the user is already locked
-        if (!controlEnabled) {
-            camera.detachControl(canvas);
-        } else {
-            camera.attachControl(canvas);
-        }
-    };
-
-    // Attach events to the document
-    document.addEventListener("pointerlockchange", pointerlockchange, false);
-    document.addEventListener("mspointerlockchange", pointerlockchange, false);
-    document.addEventListener("mozpointerlockchange", pointerlockchange, false);
-    document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
-}*/
-
 var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
 var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
@@ -93,7 +59,9 @@ var createScene = function () {
                     removeBlock(pickedBlock, currentHand);
                 }
                 var possibleCrafts = getCraftables(getInventory());
-                craft(getInventory(), "woodenPickaxe"); // have to move this later
+                craft(getInventory(), "woodenPickaxe");
+                craft(getInventory(), "stonePickaxe"); // have to move this later
+                craft(getInventory(), "ironPickaxe");
                 console.log("possible crafts:");
                 console.log(possibleCrafts);
                 console.log("inventory :");
@@ -106,44 +74,83 @@ var createScene = function () {
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
-                trigger: BABYLON.ActionManager.OnKeyDownTrigger,
-                parameter: 'a'
+                trigger: BABYLON.ActionManager.OnKeyUpTrigger,
+                parameter: 'r'
             },
             function () {
                 addBlock(castRay(camera));
             }
         )
     );
+    //Spacekey
+    scene.actionManager.registerAction(
+        new BABYLON.ExecuteCodeAction(
+            {
+                trigger: BABYLON.ActionManager.OnKeyUpTrigger,
+                parameter: 'a'
+            },
+            function () {
+                cameraJump();
+            }
+        ) 
+    );
 
-    createGui();
-    setupLights(scene);
-    generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
-    generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
+var cameraJump = function () {
+    var cam = scene.cameras[0];
+    cam.position.y += 2;
+  /*  cam.animations = [];
 
-    /**
-     * Created all the UI elements
-     */
-    function createGui() {
-        help(advancedTexture);
-        centerCross(advancedTexture);
-        //  hotbar(advancedTexture);
-        //  toggleInventoryUI(advancedTexture)
+    var a = new BABYLON.Animation(
+        "a",
+        "position.y", 30,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+
+    // Animation keys
+    var keys = [];
+    keys.push({ frame: 0, value: cam.position.y });
+    keys.push({ frame: 7, value: cam.position.y + 2 });
+    keys.push({ frame: 14, value: cam.position.y });
+    a.setKeys(keys);
+
+    var easingFunction = new BABYLON.CircleEase();
+    easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
+    a.setEasingFunction(easingFunction);
+
+    cam.animations.push(a);
+
+    scene.beginAnimation(cam, 0, 14, false);*/
+}
+
+createGui();
+setupLights(scene);
+generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
+generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
+
+/**
+ * Created all the UI elements
+ */
+function createGui() {
+    help(advancedTexture);
+    centerCross(advancedTexture);
+    //  hotbar(advancedTexture);
+    //  toggleInventoryUI(advancedTexture)
+}
+
+scene.registerBeforeRender(function () {
+    castRay(camera);
+});
+
+//pointer lock
+scene.onPointerUp = function () {
+    if (!document.pointerLockElement) {
+        engine.enterPointerlock();
     }
-
-    scene.registerBeforeRender(function () {
-        castRay(camera);
-    });
-
-    //pointer lock
-    scene.onPointerUp = function () {
-        if (!document.pointerLockElement) {
-            engine.enterPointerlock();
-        }
-        else {
-            engine.exitPointerlock();
-        }
+    else {
+        engine.exitPointerlock();
     }
-    return scene;
+}
+return scene;
 };
 
 var scene = createScene(); //Call the createScene function
