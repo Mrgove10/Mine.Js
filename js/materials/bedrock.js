@@ -1,3 +1,7 @@
+/**
+ * Bedrock material
+ * @param {*} scene 
+ */
 export function MAT_bedrock(scene) {
     var bedrockMaterial = new BABYLON.StandardMaterial("bedrockMaterial", scene);
     bedrockMaterial.diffuseTexture = new BABYLON.Texture("images/bedrock.png", scene);

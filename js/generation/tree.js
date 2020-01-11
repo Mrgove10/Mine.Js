@@ -1,9 +1,15 @@
 import { MAT_wood } from "../materials/wood.js";
 import { MAT_leaf } from "../materials/leaf.js";
 
+/**
+ * Generates a tree
+ * @param {*} scene 
+ * @param {*} renderDistance 
+ * @param {*} xp 
+ * @param {*} zp 
+ * @param {*} yp 
+ */
 export function createTree(scene, renderDistance, xp, zp, yp) {
-    //console.log("generating tree");
-
     var cubeWood = BABYLON.MeshBuilder.CreateBox("cube", {}, scene);
     cubeWood.checkCollisions = true;
     cubeWood.material = MAT_wood(scene);
@@ -55,7 +61,7 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
             var name = "leaf #" + x + "-" + height + "-" + y;
             var cubeleaf = cubeLeaf.createInstance(name);
             cubeleaf.position = new BABYLON.Vector3(x - 1, height, y - 1);
-            cubeleaf.checkCollisions = true; 
+            cubeleaf.checkCollisions = true;
         }
     }
 

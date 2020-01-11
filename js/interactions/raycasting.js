@@ -1,3 +1,7 @@
+/**
+ * Cast a ray from the center of the camera
+ * @param {*} camera 
+ */
 export function castRay(camera) {
     var origin = camera.position;
 

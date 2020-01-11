@@ -1,7 +1,7 @@
 //ui
 import { centerCross } from './js/UI/centerCross.js';
 import { help } from './js/UI/help.js';
-import { timerText } from './js/UI/timer.js';
+import { currentItem } from './js/UI/currentItem.js'
 
 //scene
 import { setupLights } from './js/scene/lights.js';
@@ -10,14 +10,13 @@ import { setupcamera } from './js/scene/camera.js';
 //interactions
 import { castRay } from './js/interactions/raycasting.js';
 import { removeBlock } from './js/interactions/removeBlock.js';
-import { addBlock } from './js/interactions/addBlock.js';
 
 //generation
 import { generateFlatTerrain } from './js/generation/bedrock.js';
 import { generateTerrain } from './js/generation/terrain.js';
 
 //player
-import { showInventoryConsole, getInventory } from './js/player/inventory.js';
+import { getInventory } from './js/player/inventory.js';
 
 //crafting
 import { getCraftables, craft } from './js/crafting/crafting.js';
@@ -25,10 +24,13 @@ import { getCraftables, craft } from './js/crafting/crafting.js';
 var mapsize = 22;
 var maxheight = 17;
 var renderDistance = 10;
-var currentHand = "hand"
-var gravity = -1 // earth gravity = 9.81
-//see : https://www.babylonjs-playground.com/#4P4FTN#1 
-// for pointer lock 
+export var currentHand = "hand";
+var gravity = -1; // earth gravity = 9.81
+
+var startX = 9;
+var startY = 35;
+var startZ = 9;
+
 var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
 var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
@@ -36,13 +38,14 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine, true, {
         stencil: true
     });
-    var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-    var camera = setupcamera(scene, canvas, 9, 30, 9);
-
+    
     scene.gravity = new BABYLON.Vector3(0, gravity, 0);
     scene.collisionsEnabled = true; //Activates colisions in the scene
     scene.actionManager = new BABYLON.ActionManager(scene);
     scene.useGeometryIdsMap = true;
+
+    var advancedTexture = new BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    var camera = setupcamera(scene, canvas, startX, startY, startZ);
 
     //   scene.debugLayer.show(); //debug layer
 
@@ -77,20 +80,7 @@ var createScene = function () {
             }
         )
     );
-
-    //Add block key
-    scene.actionManager.registerAction(
-        new BABYLON.ExecuteCodeAction(
-            {
-                trigger: BABYLON.ActionManager.OnKeyUpTrigger,
-                parameter: 'r'
-            },
-            function () {
-                addBlock(castRay(camera));
-            }
-        )
-    );
-    //Spacekey
+    //jump key
     scene.actionManager.registerAction(
         new BABYLON.ExecuteCodeAction(
             {
@@ -112,23 +102,22 @@ var createScene = function () {
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
     generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
-
     /**
      * Created all the UI elements
      */
     function createGui() {
         help(advancedTexture);
         centerCross(advancedTexture);
-
-        //  hotbar(advancedTexture);
-        //  toggleInventoryUI(advancedTexture)
     }
 
+    /**
+     * Things that should happen before the render
+     */
     scene.registerBeforeRender(function () {
         castRay(camera);
-        if (camera.position.y <= -10) {
+        if (camera.position.y <= -15) { // if we drop from the map, place us back to the top of the map
             engine.exitPointerlock();
-            camera.position = new BABYLON.Vector3(9, 30, 9);
+            camera.position = new BABYLON.Vector3(startX, startY, startZ);
         }
     });
 
@@ -141,14 +130,6 @@ var createScene = function () {
             engine.exitPointerlock();
         }
     }
-    /*
-        var i = 0;
-        var handle = window.setInterval(() => {
-            i++;
-            var v = timerText(advancedTexture);
-            v.text = i;
-        }, 1000);
-    */
     return scene;
 };
 

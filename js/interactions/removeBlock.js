@@ -1,7 +1,7 @@
 import { addToInventory } from '../player/inventory.js';
 
 /**
- * Remouves a block
+ * Remouves a block and adds it to the inventory
  * @param {*} pickedBlock 
  * @param {*} handObject 
  */

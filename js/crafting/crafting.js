@@ -1,6 +1,13 @@
 import { addToInventory } from '../player/inventory.js';
 
+/**
+ * possible craft the user has
+ */
 export var possibleCrafts = [];
+
+/**
+ * Allcraftable objects
+ */
 export var craftables = [
     {
         name: "woodenPickaxe",

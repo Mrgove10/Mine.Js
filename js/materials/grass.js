@@ -1,3 +1,7 @@
+/**
+ * Grass material
+ * @param {*} scene 
+ */
 export function MAT_grass(scene) {
     var grassMaterial = new BABYLON.StandardMaterial("grassMaterial", scene);
     grassMaterial.diffuseTexture = new BABYLON.Texture("images/grass.png", scene);

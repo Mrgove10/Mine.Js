@@ -1,3 +1,7 @@
+/**
+ * wood material
+ * @param {*} scene 
+ */
 export function MAT_wood(scene) {
     var woodMaterial = new BABYLON.StandardMaterial("woodMaterial", scene);
     woodMaterial.diffuseTexture = new BABYLON.Texture("images/wood.png", scene);

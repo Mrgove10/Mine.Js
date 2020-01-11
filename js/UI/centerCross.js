@@ -1,3 +1,7 @@
+/**
+ * function to create the center cross
+ * @param {*} advancedTexture 
+ */
 export function centerCross(advancedTexture) {
     var cross = new BABYLON.GUI.Rectangle();
     cross.width = "20px";

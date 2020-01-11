@@ -20,11 +20,11 @@ Your goal is to find diamond as quick as possible ! It is heavily inspierd by [M
 
 Object are autocrafted
 
-| object         | recipe               | name (internal) |
-| -------------- | -------------------- | --------------- |
-| wooden pickaxe | 5x wood              | woodenPickaxe   |
-| stone pickaxe  | 2x sticks + 3x stone | stonePickaxe    |
-| iron pickaxe   | 2x sticks + 3x iron  | ironPickaxe     |
+|                                                  | object         | recipe               | name (internal) |
+| ------------------------------------------------ | -------------- | -------------------- | --------------- |
+| ![woodenPickaxe](images/craft/woodenPickaxe.png) | Wooden pickaxe | 5x wood              | woodenPickaxe   |
+| ![stonePickaxe](images/craft/stonePickaxe.png)   | Stone pickaxe  | 2x sticks + 3x stone | stonePickaxe    |
+| ![ironPickaxe](images/craft/ironPickaxe.png)     | Iron pickaxe   | 2x sticks + 3x iron  | ironPickaxe     |
 
 ## Info
 
