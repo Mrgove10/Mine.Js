@@ -70,8 +70,10 @@ export function craft(inventory, objToCraft) {
     console.log("wants to craft " + objToCraft);
     var verification = getCraftables(inventory);
     if (verification.includes(objToCraft)) {
-        console.log("can craft " + objToCraft);
+        console.log("crafts " + objToCraft);
         var objreturn = craftables.find(x => x.name === objToCraft);
         addToInventory(objreturn.name, objreturn.returns);
+        return true;
     }
+    return false;
 }

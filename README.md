@@ -28,10 +28,11 @@ Object are autocrafted
 
 ## Info
 
-if you have an adbblocker, some scripts may be blocked, please deactivate your adblock
+if you have an adblocker, some scripts may be blocked, please deactivate your adblock
 
 ## roadmap
 
 - autocrafting
 - feed to keep up updated in the game events
 - fastest way to find diamond
+- reset the page if the user falls

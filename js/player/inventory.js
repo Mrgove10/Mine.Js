@@ -37,7 +37,7 @@ export function addToInventory(objString, number) {
             inventory.leaf += number;
             break;
         case "wood":
-            inventory.wood += number;
+            inventory.wood += number + 1;//in case not alot of trees spawn 
             break;
         case "diamond":
             inventory.diamond += number;

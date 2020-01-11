@@ -1,6 +1,7 @@
 //ui
 import { centerCross } from './js/UI/centerCross.js';
 import { help } from './js/UI/help.js';
+import { timerText } from './js/UI/timer.js';
 
 //scene
 import { setupLights } from './js/scene/lights.js';
@@ -21,8 +22,7 @@ import { showInventoryConsole, getInventory } from './js/player/inventory.js';
 //crafting
 import { getCraftables, craft } from './js/crafting/crafting.js';
 
-
-var mapsize = 20;
+var mapsize = 22;
 var maxheight = 17;
 var renderDistance = 10;
 var currentHand = "hand"
@@ -59,9 +59,17 @@ var createScene = function () {
                     removeBlock(pickedBlock, currentHand);
                 }
                 var possibleCrafts = getCraftables(getInventory());
-                craft(getInventory(), "woodenPickaxe");
-                craft(getInventory(), "stonePickaxe"); // have to move this later
-                craft(getInventory(), "ironPickaxe");
+                if (craft(getInventory(), "woodenPickaxe")) {
+                    currentHand = "woodenPickaxe"
+                }
+                else if (craft(getInventory(), "stonePickaxe")) {
+                    currentHand = "stonePickaxe"
+                }
+                else if (craft(getInventory(), "ironPickaxe")) {
+                    currentHand = "ironPickaxe"
+                }
+
+                console.log("current hand : " + currentHand)
                 console.log("possible crafts:");
                 console.log(possibleCrafts);
                 console.log("inventory :");
@@ -92,65 +100,56 @@ var createScene = function () {
             function () {
                 cameraJump();
             }
-        ) 
+        )
     );
 
-var cameraJump = function () {
-    var cam = scene.cameras[0];
-    cam.position.y += 2;
-  /*  cam.animations = [];
-
-    var a = new BABYLON.Animation(
-        "a",
-        "position.y", 30,
-        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
-        BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
-
-    // Animation keys
-    var keys = [];
-    keys.push({ frame: 0, value: cam.position.y });
-    keys.push({ frame: 7, value: cam.position.y + 2 });
-    keys.push({ frame: 14, value: cam.position.y });
-    a.setKeys(keys);
-
-    var easingFunction = new BABYLON.CircleEase();
-    easingFunction.setEasingMode(BABYLON.EasingFunction.EASINGMODE_EASEINOUT);
-    a.setEasingFunction(easingFunction);
-
-    cam.animations.push(a);
-
-    scene.beginAnimation(cam, 0, 14, false);*/
-}
-
-createGui();
-setupLights(scene);
-generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
-generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
-
-/**
- * Created all the UI elements
- */
-function createGui() {
-    help(advancedTexture);
-    centerCross(advancedTexture);
-    //  hotbar(advancedTexture);
-    //  toggleInventoryUI(advancedTexture)
-}
-
-scene.registerBeforeRender(function () {
-    castRay(camera);
-});
-
-//pointer lock
-scene.onPointerUp = function () {
-    if (!document.pointerLockElement) {
-        engine.enterPointerlock();
+    var cameraJump = function () {
+        var cam = scene.cameras[0];
+        cam.position.y += 2;
     }
-    else {
-        engine.exitPointerlock();
+
+    createGui();
+    setupLights(scene);
+    generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
+    generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
+
+    /**
+     * Created all the UI elements
+     */
+    function createGui() {
+        help(advancedTexture);
+        centerCross(advancedTexture);
+
+        //  hotbar(advancedTexture);
+        //  toggleInventoryUI(advancedTexture)
     }
-}
-return scene;
+
+    scene.registerBeforeRender(function () {
+        castRay(camera);
+        if (camera.position.y <= -10) {
+            engine.exitPointerlock();
+            camera.position = new BABYLON.Vector3(9, 30, 9);
+        }
+    });
+
+    //pointer lock
+    scene.onPointerUp = function () {
+        if (!document.pointerLockElement) {
+            engine.enterPointerlock();
+        }
+        else {
+            engine.exitPointerlock();
+        }
+    }
+    /*
+        var i = 0;
+        var handle = window.setInterval(() => {
+            i++;
+            var v = timerText(advancedTexture);
+            v.text = i;
+        }, 1000);
+    */
+    return scene;
 };
 
 var scene = createScene(); //Call the createScene function
@@ -158,7 +157,6 @@ var scene = createScene(); //Call the createScene function
 // Register a render loop to repeatedly render the scene
 engine.runRenderLoop(function () {
     scene.render();
-    console.log(scene.cameras[0].position)
     var fpsLabel = document.getElementById("fpsLabel");
     fpsLabel.innerHTML = engine.getFps().toFixed() + " fps";
 });

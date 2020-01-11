@@ -1,6 +1,6 @@
 export function help(advancedTexture) {
     var text1 = new BABYLON.GUI.TextBlock();
-    text1.text = "press Z,Q,S,D and mouse to move around";
+    text1.text = "Press Z,Q,S,D and mouse to move around";
     text1.width = "350px"
     text1.height = "25px"
     text1.fontSize = 15;
@@ -9,7 +9,7 @@ export function help(advancedTexture) {
     advancedTexture.addControl(text1);
 
     var text2 = new BABYLON.GUI.TextBlock();
-    text2.text = "press R to detroy blocks";
+    text2.text = "Press R to detroy blocks";
     text2.width = "350px"
     text2.height = "25px"
     text2.fontSize = 15;
