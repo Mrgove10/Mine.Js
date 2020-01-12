@@ -35,6 +35,7 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
     //level 1 5X5
     for (let x = xp; x < xp + 5; x++) {
         for (let y = yp; y < yp + 5; y++) {
+            console.log(x + y)
             var height = zp + 3;
             var name = "leaf #" + x + "-" + height + "-" + y;
             var cubeleaf = cubeLeaf.createInstance(name);
@@ -46,11 +47,13 @@ export function createTree(scene, renderDistance, xp, zp, yp) {
     //level 2 5X5
     for (let x = xp; x < xp + 5; x++) {
         for (let y = yp; y < yp + 5; y++) {
-            var height = zp + 4;
-            var name = "leaf #" + x + "-" + height + "-" + y;
-            var cubeleaf = cubeLeaf.createInstance(name);
-            cubeleaf.position = new BABYLON.Vector3(x - 2, height, y - 2);
-            cubeleaf.checkCollisions = true;
+            if (x != 3 & y != 3) {
+                var height = zp + 4;
+                var name = "leaf #" + x + "-" + height + "-" + y;
+                var cubeleaf = cubeLeaf.createInstance(name);
+                cubeleaf.position = new BABYLON.Vector3(x - 2, height, y - 2);
+                cubeleaf.checkCollisions = true;
+            }
         }
     }
 

@@ -1,5 +1,3 @@
-import { currentHand } from "../../main.js"
-
 /**
  * Creates the help UI (top left texts)
  * @param {*} advancedTexture 
@@ -33,6 +31,4 @@ export function help(advancedTexture) {
     text2.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
     text2.paddingTop = "80";
     advancedTexture.addControl(text2);
-
-   
 }

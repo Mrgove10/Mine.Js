@@ -23,7 +23,7 @@ import { getCraftables, craft } from './js/crafting/crafting.js';
 
 var mapsize = 22;
 var maxheight = 17;
-var renderDistance = 10;
+var renderDistance = 15;
 export var currentHand = "hand";
 var gravity = -1; // earth gravity = 9.81
 
@@ -48,6 +48,48 @@ var createScene = function () {
     var camera = setupcamera(scene, canvas, startX, startY, startZ);
 
     //   scene.debugLayer.show(); //debug layer
+    // for the pointer lock see : https://www.babylonjs-playground.com/#219IXL#15
+    //We start without being locked.
+    var isLocked = false;
+
+    // On click event, request pointer lock
+    scene.onPointerDown = function (evt) {
+
+        //true/false check if we're locked, faster than checking pointerlock on each single click.
+        if (!isLocked) {
+            canvas.requestPointerLock = canvas.requestPointerLock || canvas.msRequestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock || false;
+            if (canvas.requestPointerLock) {
+                canvas.requestPointerLock();
+            }
+        }
+
+        //continue with shooting requests or whatever :P
+        //evt === 0 (left mouse click)
+        //evt === 1 (mouse wheel click (not scrolling))
+        //evt === 2 (right mouse click)
+    };
+
+    // Event listener when the pointerlock is updated (or removed by pressing ESC for example).
+    var pointerlockchange = function () {
+        var controlEnabled = document.pointerLockElement || document.mozPointerLockElement || document.webkitPointerLockElement || document.msPointerLockElement || false;
+
+        // If the user is already locked
+        if (!controlEnabled) {
+            camera.detachControl(canvas);
+            isLocked = false;
+        } else {
+            camera.attachControl(canvas);
+            isLocked = true;
+        }
+    };
+
+    // Attach events to the document
+    document.addEventListener("pointerlockchange", pointerlockchange, false);
+    document.addEventListener("mspointerlockchange", pointerlockchange, false);
+    document.addEventListener("mozpointerlockchange", pointerlockchange, false);
+    document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
+
+
 
     // Remove block key
     scene.actionManager.registerAction(
@@ -61,22 +103,19 @@ var createScene = function () {
                 if (pickedBlock.pickedMesh != null) { // in case there is no block in front of us
                     removeBlock(pickedBlock, currentHand);
                 }
-                var possibleCrafts = getCraftables(getInventory());
-                if (craft(getInventory(), "woodenPickaxe")) {
-                    currentHand = "woodenPickaxe"
+                if (getInventory().woodenPickaxe == 0) {
+                    if (craft(getInventory(), "woodenPickaxe")) {
+                        currentHand = "woodenPickaxe"
+                    }
+                } if (getInventory().stonePickaxe == 0) {
+                    if (craft(getInventory(), "stonePickaxe")) {
+                        currentHand = "stonePickaxe"
+                    }
+                } if (getInventory().ironPickaxe == 0) {
+                    if (craft(getInventory(), "ironPickaxe")) {
+                        currentHand = "ironPickaxe"
+                    }
                 }
-                else if (craft(getInventory(), "stonePickaxe")) {
-                    currentHand = "stonePickaxe"
-                }
-                else if (craft(getInventory(), "ironPickaxe")) {
-                    currentHand = "ironPickaxe"
-                }
-
-                console.log("current hand : " + currentHand)
-                console.log("possible crafts:");
-                console.log(possibleCrafts);
-                console.log("inventory :");
-                console.log(getInventory());
             }
         )
     );
@@ -117,21 +156,26 @@ var createScene = function () {
      */
     scene.registerBeforeRender(function () {
         castRay(camera);
-        ci.text = "Current item : " + currentHand;
+
+        switch (currentHand) {
+            case "woodenPickaxe":
+                ci.text = "Current item : Wooden Pickaxe";
+                break;
+            case "stonePickaxe":
+                ci.text = "Current item : Stone Pickaxe";
+                break;
+            case "ironPickaxe":
+                ci.text = "Current item : Iron Pickaxe";
+                break;
+            case "hand":
+                ci.text = "Current item : Bare hands";
+                break;
+        }
         if (camera.position.y <= -15) { // if we drop from the map, place us back to the top of the map
             camera.position = new BABYLON.Vector3(startX, startY, startZ);
         }
     });
 
-    //pointer lock
-    /* scene.onPointerUp = function () {
-         if (!document.pointerLockElement) {
-             engine.enterPointerlock();
-         }
-         else {
-             engine.exitPointerlock();
-         }
-     }*/
     return scene;
 };
 

@@ -8,6 +8,7 @@ import { addToInventory } from '../player/inventory.js';
 export function removeBlock(pickedBlock, handObject) {
     var id = pickedBlock.pickedMesh.id;
     var blocktype = id.split(" ")[0]; //finds the blocktype based on its id
+    console.log(blocktype)
     if (blocktype != "bedrock") {
         switch (handObject) {
             case "hand":

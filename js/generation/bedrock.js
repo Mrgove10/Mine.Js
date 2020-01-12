@@ -16,7 +16,7 @@ export function generateFlatTerrain(scene, renderDistance, mapsize) {
             var name = "bedrock #" + x + "-" + height + "-" + y;
             var cubebedrockinst = cubebedrock.createInstance(name);
             cubebedrockinst.position = new BABYLON.Vector3(x, height, y);
-            cubebedrock.checkCollisions = true;
+            cubebedrockinst.checkCollisions = true;
             cubebedrockinst.backFaceCulling = true;
         }
     }

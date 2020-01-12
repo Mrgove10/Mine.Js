@@ -78,12 +78,12 @@ export function generateTerrain(scene, renderDistance, mapsize, maxheight) {
                 var diamond = Math.random()
                 var iron = Math.random()
 
-                if (iron > 0.98) {
-                    name = "diamond #" + x + "-" + h + "-" + y;
+                if (iron > 0.978) {
+                    name = "iron #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeIron.createInstance(name);
                 }
                 else if (diamond > 0.998) {
-                    name = "iron #" + x + "-" + h + "-" + y;
+                    name = "diamond #" + x + "-" + h + "-" + y;
                     var cubeInstanceBot = cubeDiamond.createInstance(name);
                 }
                 else {

@@ -15,6 +15,7 @@ Your goal is to find diamond as quick as possible ! It is heavily inspierd by [M
 
 - Random procedural level generation
 - Graphics similar to minecraft
+- Jetpack! To get you out of those deep holes
 
 ## Craftables
 
@@ -31,3 +32,5 @@ Object are autocrafted once you have egnoth materials
 Can i fall off the map ? **Yes, you will be teleported to the top of the map if you fall off**
 
 can i generate another environment ? **Yes, just refresh the tab**
+
+I can't jump ! **make sure you are very close to the block you are trying to jmp when pressing the jump key**
