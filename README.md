@@ -9,7 +9,12 @@
 Mine.js is a javascript game made with [Babylon.js](https://www.babylonjs.com/).
 Your goal is to find diamond as quick as possible ! It is heavily inspierd by [Minecraft](https://minecraft.net/).
 
-![Image of the game](docs/gameplay.png)
+![Image of the game](docs/gameplay1.png)
+
+- [Mine.js](#minejs)
+  - [Features](#features)
+  - [Craftables](#craftables)
+  - [FAQ](#faq)
 
 ## Features
 
