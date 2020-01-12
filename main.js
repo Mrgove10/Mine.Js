@@ -38,7 +38,7 @@ var createScene = function () {
     var scene = new BABYLON.Scene(engine, true, {
         stencil: true
     });
-    
+
     scene.gravity = new BABYLON.Vector3(0, gravity, 0);
     scene.collisionsEnabled = true; //Activates colisions in the scene
     scene.actionManager = new BABYLON.ActionManager(scene);
@@ -99,6 +99,8 @@ var createScene = function () {
     }
 
     createGui();
+    var ci = currentItem()
+    advancedTexture.addControl(ci);
     setupLights(scene);
     generateFlatTerrain(scene, renderDistance, mapsize); //generates the bedrock
     generateTerrain(scene, renderDistance, mapsize, maxheight); //generates the terrain
@@ -115,21 +117,21 @@ var createScene = function () {
      */
     scene.registerBeforeRender(function () {
         castRay(camera);
+        ci.text = "Current item : " + currentHand;
         if (camera.position.y <= -15) { // if we drop from the map, place us back to the top of the map
-            engine.exitPointerlock();
             camera.position = new BABYLON.Vector3(startX, startY, startZ);
         }
     });
 
     //pointer lock
-    scene.onPointerUp = function () {
-        if (!document.pointerLockElement) {
-            engine.enterPointerlock();
-        }
-        else {
-            engine.exitPointerlock();
-        }
-    }
+    /* scene.onPointerUp = function () {
+         if (!document.pointerLockElement) {
+             engine.enterPointerlock();
+         }
+         else {
+             engine.exitPointerlock();
+         }
+     }*/
     return scene;
 };
 

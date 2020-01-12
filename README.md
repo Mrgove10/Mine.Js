@@ -4,9 +4,9 @@
 | -------------------------------------- | --------------------------------- |
 | ![Image of the game](docs/babylon.png) | ![Image of the game](docs/mc.png) |
 
-**[Play ▶](https://mrgove10.github.io/Mine.Js/)**
+**[▶ Play](https://mrgove10.github.io/Mine.Js/)** (If you have an adblocker, some scripts may be blocked, please deactivate your adblock)
 
-Mine.js is a javascript game made with [babylon.js](https://www.babylonjs.com/).
+Mine.js is a javascript game made with [Babylon.js](https://www.babylonjs.com/).
 Your goal is to find diamond as quick as possible ! It is heavily inspierd by [Minecraft](https://minecraft.net/).
 
 ![Image of the game](docs/gameplay.png)
@@ -18,7 +18,7 @@ Your goal is to find diamond as quick as possible ! It is heavily inspierd by [M
 
 ## Craftables
 
-Object are autocrafted
+Object are autocrafted once you have egnoth materials
 
 |                                                  | object         | recipe               | name (internal) |
 | ------------------------------------------------ | -------------- | -------------------- | --------------- |
@@ -26,13 +26,8 @@ Object are autocrafted
 | ![stonePickaxe](images/craft/stonePickaxe.png)   | Stone pickaxe  | 2x sticks + 3x stone | stonePickaxe    |
 | ![ironPickaxe](images/craft/ironPickaxe.png)     | Iron pickaxe   | 2x sticks + 3x iron  | ironPickaxe     |
 
-## Info
+## FAQ
 
-if you have an adblocker, some scripts may be blocked, please deactivate your adblock
+Can i fall off the map ? **Yes, you will be teleported to the top of the map if you fall off**
 
-## roadmap
-
-- autocrafting
-- feed to keep up updated in the game events
-- fastest way to find diamond
-- reset the page if the user falls
+can i generate another environment ? **Yes, just refresh the tab**
