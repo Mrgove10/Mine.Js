@@ -12,7 +12,9 @@
   "dependencies": {
     "babylonjs": "^4.1.0",
     "babylonjs-gui": "^4.1.0",
-    "http-server": "^0.12.3",
     "simplex-noise": "^2.4.0"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3"
   }
 }
