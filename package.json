@@ -10,9 +10,9 @@
   "author": "Adrien R",
   "license": "MIT",
   "dependencies": {
-    "babylonjs": "^4.0.3",
-    "babylonjs-gui": "^4.0.3",
-    "http-server": "^0.12.1",
+    "babylonjs": "^4.1.0",
+    "babylonjs-gui": "^4.1.0",
+    "http-server": "^0.12.3",
     "simplex-noise": "^2.4.0"
   }
 }
